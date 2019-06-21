@@ -23,13 +23,12 @@ _MELGRAMMAR: str = """
     ?factor: trig
            | trig "^" factor -> pow
     ?trig: base
-            | "sen" base ->  sen
-            | "cos" base ->  cos
-            | "tang" base ->  tang
-            | "arcsen" base ->  arcsen
-            | "arccos" base ->  arccos
-            | "arctang" base ->  arctang
-
+         | "sen" base ->  sen
+         | "cos" base ->  cos
+         | "tang" base ->  tang
+         | "arcsen" base ->  arcsen
+         | "arccos" base ->  arccos
+         | "arctang" base ->  arctang
     ?base: "-" base -> neg
          | NUMBER -> number
          | VARNAME -> getvar

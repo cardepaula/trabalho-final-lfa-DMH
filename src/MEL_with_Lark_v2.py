@@ -16,7 +16,6 @@ _MELGRAMMAR: str = """
           | block
           | orexpr
 
-
     ?ifexpr: "if" expr ":" expr ["else" expr] -> ifexpr
 
     ?whileexpr: "while" expr ":" expr -> whileexpr
@@ -31,12 +30,12 @@ _MELGRAMMAR: str = """
     ?andexpr: conj ("&&" conj)* -> andexpr
 
     ?conj: aexpr
-        | aexpr "==" aexpr -> igualdade
-        | aexpr "!=" aexpr -> diferenca
-        | aexpr ">" aexpr -> maior_q
-        | aexpr ">=" aexpr -> maior_igual_q
-        | aexpr "<" aexpr -> menor_q
-        | aexpr "<=" aexpr -> menor_iqual_q
+         | aexpr "==" aexpr -> igualdade
+         | aexpr "!=" aexpr -> diferenca
+         | aexpr ">" aexpr -> maior_q
+         | aexpr ">=" aexpr -> maior_igual_q
+         | aexpr "<" aexpr -> menor_q
+         | aexpr "<=" aexpr -> menor_iqual_q
 
     ?aexpr: term
           | aexpr "+" term -> add
@@ -52,12 +51,12 @@ _MELGRAMMAR: str = """
            | trig "^" factor -> pow
 
     ?trig: base
-            | "sen" base ->  sen
-            | "cos" base ->  cos
-            | "tang" base ->  tang
-            | "arcsen" base ->  arcsen
-            | "arccos" base ->  arccos
-            | "arctang" base ->  arctang
+         | "sen" base ->  sen
+         | "cos" base ->  cos
+         | "tang" base ->  tang
+         | "arcsen" base ->  arcsen
+         | "arccos" base ->  arccos
+         | "arctang" base ->  arctang
 
     ?base: "-" base -> neg
          | NUMBER -> number
