@@ -11,10 +11,10 @@ _MELGRAMMAR: str = """
     ?start: expr ";"
 
     ?expr: assignment
-          | ifexpr
-          | whileexpr
-          | block
-          | orexpr
+         | ifexpr
+         | whileexpr
+         | block
+         | orexpr
 
     ?ifexpr: "if" expr ":" expr ["else" expr] -> ifexpr
 
