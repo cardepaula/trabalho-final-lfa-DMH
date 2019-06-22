@@ -3,8 +3,7 @@
 #
 
 from lark import Lark, Transformer, v_args
-import sys
-import math
+import sys, math
 
 # Constante do módulo definindo a gramática a ser utilizada utilizando a sintaxe Lark + EBNF
 _MELGRAMMAR: str = """
@@ -16,9 +15,9 @@ _MELGRAMMAR: str = """
          | block
          | orexpr
 
-    ?ifexpr: "if" expr ":" expr ["else" expr] -> ifexpr
+    ?ifexpr: "if" expr "do" expr ["else" "do" expr] -> ifexpr
 
-    ?whileexpr: "while" expr ":" expr -> whileexpr
+    ?whileexpr: "while" expr "do" expr -> whileexpr
 
     ?block: "{" start* "}"
 
@@ -72,7 +71,7 @@ _MELGRAMMAR: str = """
 class DMHParser:
     def __init__(self):
         self._inputExpr: str = ""
-        self._parser: Lark = Lark(_MELGRAMMAR, parser='lalr', start='start') #, transformer=CalculateTree())
+        self._parser: Lark = Lark(_MELGRAMMAR, parser='lalr', start='start', transformer=CalculateTree())
 
     @property
     def expression(self) -> str:
@@ -182,11 +181,13 @@ class CalculateTree(Transformer):
         else:
             return False
 
-    def orexpr(self, value1, value2):
-        pass
+    def orexpr(self, value1, value2 = None):
+        if (value2 == None):
+            return value1
 
-    def andexpr(self, value1, value2):
-        pass
+    def andexpr(self, value1, value2 = None):
+        if (value2 == None):
+            return value1
 
     def whileexpr(self, value1, value2):
         pass
@@ -205,9 +206,10 @@ def main():
             expr = input('> ')
             if (expr == ":q"):
                 break
-
-            print(parser.calcResult(expr))
-            print(parser.calcResult(expr).pretty())
+            
+            result = parser.calcResult(expr)
+            print(result)
+            #print(parser.calcResult(expr).pretty())
         except EOFError:
             print("Invalid Data Input")
         except Exception as err:
