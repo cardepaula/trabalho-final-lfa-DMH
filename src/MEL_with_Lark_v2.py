@@ -107,9 +107,15 @@ class CalculateTree(Transformer):
     def __init__(self):
         self.vars = {}
 
+    def teste(self, *args):
+        return "Testing"
+
     def assign_var(self, name, value):
-        self.vars[name] = value
-        return value
+        if (name not in self.vars):
+            self.vars[name] = value
+            return value
+        else:
+            return "Variable '{0}' is already defined".format(name)
 
     def reassign_var(self, name, value):
         if (name in self.vars):
