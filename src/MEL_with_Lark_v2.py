@@ -115,17 +115,20 @@ class CalculateTree(Transformer):
             self.vars[name] = value
             return value
         else:
-            return "Variable '{0}' is already defined".format(name)
+            return "Error: Variable '{0}' is already defined".format(name)
 
     def reassign_var(self, name, value):
         if (name in self.vars):
             self.vars[name] = value
             return value
         else:
-            return "Variable '{0}' is not defined".format(name)
+            return "Error: Variable '{0}' is not defined".format(name)
 
     def getvar(self, name):
-        return self.vars[name]
+        if (name in self.vars):
+            return self.vars[name]
+        else:
+            return "Error: Variable {0} does not exist".format(name)
 
     def sen(self, deg_value):
         radian = math.radians(deg_value)
