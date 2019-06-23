@@ -1,12 +1,70 @@
-#
-# This example shows how to write a basic calculator with variables.
-#
+# -*- coding: utf-8 -*-
 
-from lark import Lark, Transformer, v_args
+'''
+    Classe responsável por realizar o parser tree(AST) e evaluation tree da expressão/código 
+    passada como entrada seguindo as regras definidas pela gramática da linguagem DMH 
+'''
+
+from lark import Lark, Tree, Transformer, v_args
 import sys, math
 
-# Constante do módulo definindo a gramática a ser utilizada utilizando a sintaxe Lark + EBNF
-_MELGRAMMAR: str = """
+_DMHGRAMMAR_EARLEY: str = """
+    start: expr ";"
+
+    expr: assignment
+         | ifexpr
+         | whileexpr
+         | block
+         | orexpr
+
+    ifexpr: "if" expr "do" expr ["else" "do" expr] -> ifexpr
+
+    whileexpr: "while" expr "do" expr -> whileexpr
+
+    block: "{" start* "}"
+
+    assignment: "var" VARNAME "=" aexpr -> assign_var
+               | VARNAME "=" aexpr -> reassign_var
+
+    orexpr: andexpr ("||" andexpr)* -> orexpr
+
+    andexpr: comp ("&&" comp)* -> andexpr
+
+    comp: aexpr
+        | aexpr OP_COMP aexpr
+
+    aexpr: term
+         | aexpr OP_TERM term -> term_operation
+
+    term: factor
+        | term OP_FACTOR factor -> factor_operation
+
+    factor: trig
+          | trig "^" factor -> pow
+
+    trig: base
+        | TRIG base -> trig_operation
+
+    base: OP_LEFT base -> left_operation
+        | NUMBER -> number
+        | VARNAME -> getvar
+        | "(" expr ")"
+
+    OP_TERM: "+" | "-"
+    OP_FACTOR: "*" | "/" | "//" | "%"
+    OP_LEFT: "+" | "-"
+    OP_COMP: "==" | "!=" | ">" | ">=" | "<" | "<="
+    TRIG: "sen" | "cos" | "tang" | "arcsen" | "arccos" | "arctang"
+
+    %import common.CNAME -> VARNAME
+    %import common.SIGNED_NUMBER -> NUMBER
+    %import common.WS_INLINE
+    %ignore WS_INLINE
+"""
+
+# Constante com a mesma de _DMHGRAMMAR entretanto usando a notação de ?rule para
+# realizar a evalutation tree da expressão passada como argumento e retornar seu valor
+_DMHGRAMMAR_EVALTREE: str = """
     ?start: expr ";"
 
     ?expr: assignment
@@ -15,20 +73,20 @@ _MELGRAMMAR: str = """
          | block
          | orexpr
 
+    ?assignment: "var" VARNAME "=" aexpr -> assign_var
+               | VARNAME "=" aexpr -> reassign_var
+
     ?ifexpr: "if" expr "do" expr ["else" "do" expr] -> ifexpr
 
     ?whileexpr: "while" expr "do" expr -> whileexpr
 
     ?block: "{" start* "}"
 
-    ?assignment: "var" VARNAME "=" aexpr -> assign_var
-               | VARNAME "=" aexpr -> reassign_var
-
     ?orexpr: andexpr ("||" andexpr)* -> orexpr
 
-    ?andexpr: conj ("&&" conj)* -> andexpr
+    ?andexpr: comp ("&&" comp)* -> andexpr
 
-    ?conj: aexpr
+    ?comp: aexpr
          | aexpr "==" aexpr -> igualdade
          | aexpr "!=" aexpr -> diferenca
          | aexpr ">" aexpr -> maior_q
@@ -50,35 +108,45 @@ _MELGRAMMAR: str = """
            | trig "^" factor -> pow
 
     ?trig: base
-         | "sen" base ->  sen
-         | "cos" base ->  cos
-         | "tang" base ->  tang
-         | "arcsen" base ->  arcsen
-         | "arccos" base ->  arccos
-         | "arctang" base ->  arctang
+         | "sen" base -> sen
+         | "cos" base -> cos
+         | "tang" base -> tang
+         | "arcsen" base -> arcsen
+         | "arccos" base -> arccos
+         | "arctang" base -> arctang
 
     ?base: "-" base -> neg
+         | "+" base -> pos
          | NUMBER -> number
          | VARNAME -> getvar
          | "(" expr ")"
-
+    
     %import common.CNAME -> VARNAME
     %import common.SIGNED_NUMBER -> NUMBER
     %import common.WS_INLINE
     %ignore WS_INLINE
 """
 
+# Constante do módulo definindo a gramática a ser utilizada com sintaxe EBNF
+_DMHGRAMMAR: str = _DMHGRAMMAR_EVALTREE.replace('?', '')
+
 class DMHParser:
     def __init__(self):
         self._inputExpr: str = ""
-        self._parser: Lark = Lark(_MELGRAMMAR, parser='lalr', start='start', transformer=CalculateTree())
+        self._tree: Tree = None
+        self._parser: Lark = Lark(_DMHGRAMMAR, parser='lalr', start='start')
+        self._parserEval: Lark = Lark(_DMHGRAMMAR_EVALTREE, parser='lalr', start='start', transformer=EvaluateTree(), debug=True)
 
     @property
     def expression(self) -> str:
         return self._inputExpr
 
+    @property
+    def tree(self) -> Tree:
+        return self._tree
+
     def checkExpression(self, inputExpr: str) -> bool:
-        '''Checa se a expressão de entrada é válida de acordo com a gramática MEL definida'''
+        '''Checa se a expressão de entrada é válida seguindo as regras da gramática da linguagem'''
         
         self._inputExpr = inputExpr
 
@@ -91,17 +159,25 @@ class DMHParser:
         finally:
             return isValidExpr
 
-    def calcResult(self, inputExpr: str) -> float:
-        '''Faz o cálculo da expressão e retorna o valor'''
+    def parseTree(self, inputExpr: str = None) -> Tree:
+        '''Faz o parse da árvore da expressão de entrada'''
 
-        self._inputExpr = inputExpr
-        return self._parser.parse(inputExpr)
+        if inputExpr != None: self._inputExpr = inputExpr
+        self._tree = self._parser.parse(self._inputExpr)
+
+        return self._tree
+
+    def calcResult(self, inputExpr: str = None) -> float:
+        '''Faz o cálculo da expressão de entrada e retorna o valor da árvore de avaliação'''
+
+        if inputExpr != None: self._inputExpr = inputExpr
+
+        return self._parserEval.parse(self._inputExpr)
 
 
-@v_args(inline=True)    # Affects the signatures of the methods
-class CalculateTree(Transformer):
-    from operator import add, sub, mul, truediv as div, floordiv, mod, neg, pow
-    # from math import sin, cos, tan, asin, acos, atan, radians
+@v_args(inline=True) # Afeta a assinatura dos métodos
+class EvaluateTree(Transformer):
+    from operator import add, sub, mul, truediv as div, floordiv, mod, pos, neg, pow
     number = float
 
     def __init__(self):
@@ -114,21 +190,21 @@ class CalculateTree(Transformer):
         if (name not in self.vars):
             self.vars[name] = value
             return value
-        else:
-            return "Error: Variable '{0}' is already defined".format(name)
+        
+        raise Exception("Error: Variable '{0}' is already defined".format(name))
 
     def reassign_var(self, name, value):
         if (name in self.vars):
             self.vars[name] = value
             return value
-        else:
-            return "Error: Variable '{0}' is not defined".format(name)
+        
+        raise Exception("Error: Variable '{0}' is not defined".format(name))
 
     def getvar(self, name):
         if (name in self.vars):
             return self.vars[name]
-        else:
-            return "Error: Variable {0} does not exist".format(name)
+        
+        raise Exception("Error: Variable {0} does not exist".format(name))
 
     def sen(self, deg_value):
         radian = math.radians(deg_value)
@@ -208,22 +284,20 @@ class CalculateTree(Transformer):
 def main():
     parser: DMHParser = DMHParser()
 
-    # print(parser.parse(text).pretty())
-
     while True:
         try:
-            expr = input('> ')
+            expr = input('>>> ').strip()
             if (expr == ":q"):
                 break
             
-            result = parser.calcResult(expr)
-            print(result)
-            #print(parser.calcResult(expr).pretty())
+            result: object = parser.calcResult(expr)
+            tree: Tree = parser.parseTree(expr)
+            print("Resultado: {0}\n".format(result))
+            print("Parse Tree:\n {0}".format(tree.pretty()))
         except EOFError:
             print("Invalid Data Input")
         except Exception as err:
-            #print("Error: {0}".format(err))
-            print("Error:", err)
+            print("{0}\n".format(err))
 
 
 def test():
