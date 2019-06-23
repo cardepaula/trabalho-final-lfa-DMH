@@ -76,23 +76,23 @@ _DMHGRAMMAR_EVALTREE: str = """
     ?assignment: "var" VARNAME "=" aexpr -> assign_var
                | VARNAME "=" aexpr -> reassign_var
 
-    ?ifexpr: "if" expr "do" expr ["else" "do" expr] -> ifexpr
+    ?ifexpr: "if" expr "do" expr ["else" "do" expr] -> if_expr
 
-    ?whileexpr: "while" expr "do" expr -> whileexpr
+    ?whileexpr: "while" expr "do" expr -> while_expr
 
     ?block: "{" start* "}"
 
-    ?orexpr: andexpr ("||" andexpr)* -> orexpr
+    ?orexpr: andexpr ("||" andexpr)* -> or_expr
 
-    ?andexpr: comp ("&&" comp)* -> andexpr
+    ?andexpr: comp ("&&" comp)* -> and_expr
 
     ?comp: aexpr
-         | aexpr "==" aexpr -> igualdade
-         | aexpr "!=" aexpr -> diferenca
-         | aexpr ">" aexpr -> maior_q
-         | aexpr ">=" aexpr -> maior_igual_q
-         | aexpr "<" aexpr -> menor_q
-         | aexpr "<=" aexpr -> menor_iqual_q
+         | aexpr "==" aexpr -> eq
+         | aexpr "!=" aexpr -> ne
+         | aexpr ">" aexpr -> gt
+         | aexpr ">=" aexpr -> ge
+         | aexpr "<" aexpr -> lt
+         | aexpr "<=" aexpr -> le
 
     ?aexpr: term
           | aexpr "+" term -> add
@@ -118,7 +118,7 @@ _DMHGRAMMAR_EVALTREE: str = """
     ?base: "-" base -> neg
          | "+" base -> pos
          | NUMBER -> number
-         | VARNAME -> getvar
+         | VARNAME -> get_var
          | "(" expr ")"
     
     %import common.CNAME -> VARNAME
@@ -181,13 +181,17 @@ class EvaluateTree(Transformer):
     def __init__(self):
         self.vars = {}
 
-    # Métodos chamados pelo Transformer #
-    number = float
-    from operator import add, sub, mul, truediv as div, floordiv, mod, pos, neg, pow
-
     def teste(self, *args):
         return "Testing"
 
+    # Métodos relativos a operações lógicas e matemáticas #
+    from operator import add, sub, mul, truediv as div, floordiv, mod, pos, neg, pow, eq, ne, lt, le, gt, ge
+
+    # Método de conversão para um float #
+    def number(self, value):
+        return float(value)
+
+    # Métodos para o handler de variáveis (assinatura, reassinatura e recuperação) #
     def assign_var(self, name, value):
         if (name not in self.vars):
             self.vars[name] = value
@@ -202,12 +206,13 @@ class EvaluateTree(Transformer):
         
         raise Exception("Error: Variable '{0}' is not defined".format(name))
 
-    def getvar(self, name):
+    def get_var(self, name):
         if (name in self.vars):
             return self.vars[name]
         
         raise Exception("Error: Variable {0} does not exist".format(name))
 
+    # Métodos lida com operações trigonométricas recebendo valor em graus #
     def sen(self, deg_value):
         radian = math.radians(deg_value)
         return round(math.sin(radian), 10)
@@ -232,55 +237,21 @@ class EvaluateTree(Transformer):
         radian = math.radians(deg_value)
         return round(math.atan(radian), 10)
 
-    def igualdade(self, value1, value2):
-        if (value1 == value2):
-            return True
-        else:
-            return False
-    
-    def diferenca(self, value1, value2):
-        if (value1 != value2):
-            return True
-        else:
-            return False
-    
-    def maior_q(self, value1, value2):
-        if (value1 > value2):
-            return True
-        else:
-            return False
+    # Métodos que lida com operações lógicas AND e OR #
+    def or_expr(self, value, *values):
+        if (len(values) == 0):
+            return value
 
-    def maior_igual_q(self, value1, value2):
-        if (value1 >= value2):
-            return True
-        else:
-            return False
-    
-    def menor_q(self, value1, value2):
-        if (value1 < value2):
-            return True
-        else:
-            return False
+    def and_expr(self, value, *values):
+        if (len(values) == 0):
+            return value
 
-    def menor_iqual_q(self, value1, value2):
-        if (value1 <= value2):
-            return True
-        else:
-            return False
+    # Métodos que lida com estruturas de condição(if) e repetição(while)
+    def if_expr(self, valExpr1, valExpr2, valExpr3 = None):
+        print("xD")
 
-    def orexpr(self, value1, value2 = None):
-        if (value2 == None):
-            return value1
-
-    def andexpr(self, value1, value2 = None):
-        if (value2 == None):
-            return value1
-
-    def whileexpr(self, value1, value2):
-        pass
-
-    def ifexpr(self, value1, value2, value3):
-        pass
+    def while_expr(self, valExpr1, valExpr2):
+        print("xD")
         
 # TESTANDO O CÓDIGO #
 def main():
@@ -292,10 +263,12 @@ def main():
             if (expr == ":q"):
                 break
             
-            result: object = parser.calcResult(expr)
             tree: Tree = parser.parseTree(expr)
-            print("Resultado: {0}\n".format(result))
             print("Parse Tree:\n {0}".format(tree.pretty()))
+
+            result: object = parser.calcResult(expr)
+            print("{0}\n".format(result))
+            #print("Resultado: {0}\n".format(result))
         except EOFError:
             print("Invalid Data Input")
         except Exception as err:
