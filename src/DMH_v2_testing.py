@@ -5,8 +5,8 @@
     passada como entrada seguindo as regras definidas pela gramática da linguagem DMH 
 '''
 
-from lark import Lark, Tree, Transformer, v_args
 import sys, math
+from lark import Lark, Tree, Transformer, v_args
 
 _DMHGRAMMAR_EARLEY: str = """
     start: expr ";"
@@ -150,7 +150,6 @@ class DMHParser:
         
         self._inputExpr = inputExpr
 
-        # Usa a instancia do parser e cria a sua árvore parser de execução
         isValidExpr: bool = True
         try:
             self._parser.parse(inputExpr)
@@ -174,14 +173,17 @@ class DMHParser:
 
         return self._parserEval.parse(self._inputExpr)
 
-
-@v_args(inline=True) # Afeta a assinatura dos métodos
+@v_args(inline=True)
 class EvaluateTree(Transformer):
-    from operator import add, sub, mul, truediv as div, floordiv, mod, pos, neg, pow
-    number = float
+    '''Classe que herda do Transformer responsável por visitar cada nó da árvore e 
+       executando o método de acordo com o nome da regra definida na gramática'''
 
     def __init__(self):
         self.vars = {}
+
+    # Métodos chamados pelo Transformer #
+    number = float
+    from operator import add, sub, mul, truediv as div, floordiv, mod, pos, neg, pow
 
     def teste(self, *args):
         return "Testing"
@@ -208,7 +210,7 @@ class EvaluateTree(Transformer):
 
     def sen(self, deg_value):
         radian = math.radians(deg_value)
-        return round(math.sin(radian),10)
+        return round(math.sin(radian), 10)
 
     def cos(self, deg_value):
         radian = math.radians(deg_value)
