@@ -16,22 +16,31 @@ _DMHGRAMMAR_EARLEY: str = """
          | whileexpr
          | block
          | orexpr
+         | funct
 
-    ifexpr: "if" expr "do" expr ["else" "do" expr] -> ifexpr
+    ifexpr: "if" expr "do" expr ["else" "do" expr] -> if_expr
 
-    whileexpr: "while" expr "do" expr -> whileexpr
+    whileexpr: "while" expr "do" expr -> while_expr
 
     block: "{" start* "}"
 
-    assignment: "var" VARNAME "=" aexpr -> assign_var
-               | VARNAME "=" aexpr -> reassign_var
+    assignment: "var" NAME "=" aexpr -> assign_var
+               | NAME "=" aexpr -> reassign_var
+    
+    funct: "defun" NAME "(" [params] ")" block -> def_function
 
-    orexpr: andexpr ("||" andexpr)* -> orexpr
+    params: NAME ("," NAME)*
 
-    andexpr: comp ("&&" comp)* -> andexpr
+    functcall: NAME "(" [arglist] ")"
+
+    arglist: expr ("," expr)*
+
+    orexpr: andexpr ("||" andexpr)* -> or_expr
+
+    andexpr: comp ("&&" comp)* -> and_expr
 
     comp: aexpr
-        | aexpr OP_COMP aexpr
+        | aexpr OP_COMP aexpr -> comp_operation
 
     aexpr: term
          | aexpr OP_TERM term -> term_operation
@@ -47,7 +56,8 @@ _DMHGRAMMAR_EARLEY: str = """
 
     base: OP_LEFT base -> left_operation
         | NUMBER -> number
-        | VARNAME -> getvar
+        | NAME -> get_var
+        | functcall -> call_function
         | "(" expr ")"
 
     OP_TERM: "+" | "-"
@@ -56,7 +66,7 @@ _DMHGRAMMAR_EARLEY: str = """
     OP_COMP: "==" | "!=" | ">" | ">=" | "<" | "<="
     TRIG: "sen" | "cos" | "tang" | "arcsen" | "arccos" | "arctang"
 
-    %import common.CNAME -> VARNAME
+    %import common.CNAME -> NAME
     %import common.SIGNED_NUMBER -> NUMBER
     %import common.WS_INLINE
     %ignore WS_INLINE
@@ -72,15 +82,24 @@ _DMHGRAMMAR_EVALTREE: str = """
          | whileexpr
          | block
          | orexpr
+         | funct
 
-    ?assignment: "var" VARNAME "=" aexpr -> assign_var
-               | VARNAME "=" aexpr -> reassign_var
+    ?assignment: "var" NAME "=" aexpr -> assign_var
+               | NAME "=" aexpr -> reassign_var
 
     ?ifexpr: "if" expr "do" expr ["else" "do" expr] -> if_expr
 
     ?whileexpr: "while" expr "do" expr -> while_expr
 
     ?block: "{" start* "}"
+
+    ?funct: "defun" NAME "(" [params] ")" block -> def_function
+
+    ?params: NAME ("," NAME)*
+
+    ?functcall: NAME "(" [arglist] ")"
+
+    ?arglist: expr ("," expr)*
 
     ?orexpr: andexpr ("||" andexpr)* -> or_expr
 
@@ -118,10 +137,11 @@ _DMHGRAMMAR_EVALTREE: str = """
     ?base: "-" base -> neg
          | "+" base -> pos
          | NUMBER -> number
-         | VARNAME -> get_var
+         | NAME -> get_var
+         | functcall -> call_function
          | "(" expr ")"
     
-    %import common.CNAME -> VARNAME
+    %import common.CNAME -> NAME
     %import common.SIGNED_NUMBER -> NUMBER
     %import common.WS_INLINE
     %ignore WS_INLINE
@@ -134,7 +154,7 @@ class DMHParser:
     def __init__(self):
         self._inputExpr: str = ""
         self._tree: Tree = None
-        self._parser: Lark = Lark(_DMHGRAMMAR, parser='lalr', start='start')
+        self._parser: Lark = Lark(_DMHGRAMMAR_EARLEY, start='start')
         self._parserEval: Lark = Lark(_DMHGRAMMAR_EVALTREE, parser='lalr', start='start', transformer=EvaluateTree(), debug=True)
 
     @property
@@ -172,7 +192,6 @@ class DMHParser:
         if inputExpr != None: self._inputExpr = inputExpr
 
         return self._parserEval.parse(self._inputExpr)
-        #return self._parser.parse(self._inputExpr)
 
 @v_args(inline=True)
 class EvaluateTree(Transformer):
@@ -181,7 +200,6 @@ class EvaluateTree(Transformer):
 
     def __init__(self):
         self.vars = {}
-        self.vars_new = {}
 
     def teste(self, *args):
         return "Testing"
@@ -195,8 +213,8 @@ class EvaluateTree(Transformer):
 
     # Métodos para o handler de variáveis (assinatura, reassinatura e recuperação) #
     def assign_var(self, name, value):
-        if (name not in self.vars_new):
-            self.vars_new[name] = value
+        if (name not in self.vars):
+            self.vars[name] = value
             return value
         
         raise Exception("Error: Variable '{0}' is already defined".format(name))
@@ -276,7 +294,6 @@ def main():
             #    print(i)
             
             result: object = parser.calcResult(expr)
-            #print("{0}\n".format(result))
             print("Resultado: {0}\n".format(result))
         except EOFError:
             print("Invalid Data Input")

@@ -12,26 +12,35 @@ _DMHGRAMMAR: str = """
     start: expr ";"
 
     expr: assignment
-         | ifexpr
-         | whileexpr
-         | block
-         | orexpr
+        | ifexpr
+        | whileexpr
+        | block
+        | orexpr
+        | funct
 
-    ifexpr: "if" expr "do" expr ["else" "do" expr] -> ifexpr
+    ifexpr: "if" expr "do" expr ["else" "do" expr] -> if_expr
 
-    whileexpr: "while" expr "do" expr -> whileexpr
+    whileexpr: "while" expr "do" expr -> while_expr
 
     block: "{" start* "}"
 
-    assignment: "var" VARNAME "=" aexpr -> assign_var
-               | VARNAME "=" aexpr -> reassign_var
+    assignment: "var" NAME "=" aexpr -> assign_var
+              | NAME "=" aexpr -> reassign_var
+    
+    funct: "defun" NAME "(" [params] ")" block -> def_function
 
-    orexpr: andexpr ("||" andexpr)* -> orexpr
+    params: NAME ("," NAME)*
 
-    andexpr: comp ("&&" comp)* -> andexpr
+    functcall: NAME "(" [arglist] ")"
+
+    arglist: expr ("," expr)*
+
+    orexpr: andexpr ("||" andexpr)* -> or_expr
+
+    andexpr: comp ("&&" comp)* -> and_expr
 
     comp: aexpr
-        | aexpr OP_COMP aexpr
+        | aexpr OP_COMP aexpr -> comp_operation
 
     aexpr: term
          | aexpr OP_TERM term -> term_operation
@@ -47,7 +56,8 @@ _DMHGRAMMAR: str = """
 
     base: OP_LEFT base -> left_operation
         | NUMBER -> number
-        | VARNAME -> getvar
+        | NAME -> get_var
+        | functcall -> call_function
         | "(" expr ")"
 
     OP_TERM: "+" | "-"
@@ -56,19 +66,17 @@ _DMHGRAMMAR: str = """
     OP_COMP: "==" | "!=" | ">" | ">=" | "<" | "<="
     TRIG: "sen" | "cos" | "tang" | "arcsen" | "arccos" | "arctang"
 
-    %import common.CNAME -> VARNAME
+    %import common.CNAME -> NAME
     %import common.SIGNED_NUMBER -> NUMBER
     %import common.WS_INLINE
     %ignore WS_INLINE
 """
 
-
-
 class DMHParser:
     def __init__(self):
         self._inputExpr: str = ""
         self._tree: Tree = None
-        self._parser: Lark = Lark(_DMHGRAMMAR, parser='lalr', start='start')
+        self._parser: Lark = Lark(_DMHGRAMMAR, start='start')
 
     @property
     def expression(self) -> str:
@@ -104,10 +112,8 @@ class DMHParser:
 
         if inputExpr != None: self._inputExpr = inputExpr
 
-        return self._parserEval.parse(self._inputExpr)
-        #return self._parser.parse(self._inputExpr)
+        return None
 
-@v_args(inline=True)
 class EvaluateTree():
     '''Classe que herda do Transformer responsável por visitar cada nó da árvore e 
        executando o método de acordo com o nome da regra definida na gramática'''
