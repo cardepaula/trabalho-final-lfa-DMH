@@ -8,7 +8,7 @@
 import sys, math
 from lark import Lark, Tree, Transformer, v_args
 
-_DMHGRAMMAR_EARLEY: str = """
+_DMHGRAMMAR: str = """
     start: expr ";"
 
     expr: assignment
@@ -62,80 +62,13 @@ _DMHGRAMMAR_EARLEY: str = """
     %ignore WS_INLINE
 """
 
-# Constante com a mesma de _DMHGRAMMAR entretanto usando a notação de ?rule para
-# realizar a evalutation tree da expressão passada como argumento e retornar seu valor
-_DMHGRAMMAR_EVALTREE: str = """
-    ?start: expr ";"
 
-    ?expr: assignment
-         | ifexpr
-         | whileexpr
-         | block
-         | orexpr
-
-    ?assignment: "var" VARNAME "=" aexpr -> assign_var
-               | VARNAME "=" aexpr -> reassign_var
-
-    ?ifexpr: "if" expr "do" expr ["else" "do" expr] -> if_expr
-
-    ?whileexpr: "while" expr "do" expr -> while_expr
-
-    ?block: "{" start* "}"
-
-    ?orexpr: andexpr ("||" andexpr)* -> or_expr
-
-    ?andexpr: comp ("&&" comp)* -> and_expr
-
-    ?comp: aexpr
-         | aexpr "==" aexpr -> eq
-         | aexpr "!=" aexpr -> ne
-         | aexpr ">" aexpr -> gt
-         | aexpr ">=" aexpr -> ge
-         | aexpr "<" aexpr -> lt
-         | aexpr "<=" aexpr -> le
-
-    ?aexpr: term
-          | aexpr "+" term -> add
-          | aexpr "-" term -> sub
-
-    ?term: factor
-         | term "*" factor -> mul
-         | term "/" factor -> div
-         | term "//" factor -> floordiv
-         | term "%" factor -> mod
-
-    ?factor: trig
-           | trig "^" factor -> pow
-
-    ?trig: base
-         | "sen" base -> sen
-         | "cos" base -> cos
-         | "tang" base -> tang
-         | "arcsen" base -> arcsen
-         | "arccos" base -> arccos
-         | "arctang" base -> arctang
-
-    ?base: "-" base -> neg
-         | "+" base -> pos
-         | NUMBER -> number
-         | VARNAME -> get_var
-         | "(" expr ")"
-    
-    %import common.CNAME -> VARNAME
-    %import common.SIGNED_NUMBER -> NUMBER
-    %import common.WS_INLINE
-    %ignore WS_INLINE
-"""
-
-# Constante do módulo definindo a gramática a ser utilizada com sintaxe EBNF
-_DMHGRAMMAR: str = _DMHGRAMMAR_EVALTREE.replace('?', '')
 
 class DMHParser:
     def __init__(self):
         self._inputExpr: str = ""
         self._tree: Tree = None
         self._parser: Lark = Lark(_DMHGRAMMAR, parser='lalr', start='start')
-        self._parserEval: Lark = Lark(_DMHGRAMMAR_EVALTREE, parser='lalr', start='start', transformer=EvaluateTree(), debug=True)
 
     @property
     def expression(self) -> str:
@@ -175,7 +108,7 @@ class DMHParser:
         #return self._parser.parse(self._inputExpr)
 
 @v_args(inline=True)
-class EvaluateTree(Transformer):
+class EvaluateTree():
     '''Classe que herda do Transformer responsável por visitar cada nó da árvore e 
        executando o método de acordo com o nome da regra definida na gramática'''
 
@@ -275,9 +208,9 @@ def main():
             #for i in tree.iter_subtrees():
             #    print(i)
             
-            result: object = parser.calcResult(expr)
+            #result: object = parser.calcResult(expr)
             #print("{0}\n".format(result))
-            print("Resultado: {0}\n".format(result))
+            #print("Resultado: {0}\n".format(result))
         except EOFError:
             print("Invalid Data Input")
         except Exception as err:

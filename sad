@@ -1,0 +1,36 @@
+Tree(start, [
+  Tree(expr, [
+    Tree(if_expr, [
+      Tree(expr, [
+        Tree(or_expr, [
+          Tree(and_expr, [
+            Tree(gt, [
+              Tree(aexpr, [
+                Tree(term, [
+                  Tree(factor, [
+                    Tree(trig, [
+                      Tree(base, [
+                        Tree(expr, [
+                          Tree(assign_var, [
+                            Token(VARNAME, 'x'), 
+                            Tree(aexpr, [
+                              Tree(term, [
+                                Tree(factor, [
+                                  Tree(trig, [
+                                    Tree(number, [
+                                      Token(NUMBER, '3')
+                                    ])
+                                  ])
+                                ])
+                              ])
+                            ])
+                          ])
+                        ])
+                      ])
+                    ])
+                  ])
+                ])
+              ]), 
+              Tree(aexpr, [
+                Tree(term, [
+                  Tree(factor, [Tree(trig, [Tree(number, [Token(NUMBER, '2')])])])])])])])])]), Tree(expr, [Tree(or_expr, [Tree(and_expr, [Tree(comp, [Tree(add, [Tree(aexpr, [Tree(term, [Tree(factor, [Tree(trig, [Tree(get_var, [Token(VARNAME, 'x')])])])])]), Tree(term, [Tree(factor, [Tree(trig, [Tree(number, [Token(NUMBER, '1')])])])])])])])])])])])])
