@@ -19,13 +19,13 @@ assignment: "var" NAME "=" aexpr -> assign_var
 
 funct: "defun" NAME "(" ")" "do" functblock -> def_function
 
-functblock: "{" start* "returns" functreturn "}"
+functblock: "{" start* functreturn "}"
 
-functreturn: aexpr ";"
+functreturn: "returns" aexpr ";"
 
 functcall: NAME "(" ")"
 
-print: "show" "(" aexpr ")"
+print: "show" "(" aexpr ")" -> print_screen
 
 comp: aexpr OP_COMP aexpr -> comp_operation
     | "(" aexpr OP_COMP aexpr ")" -> comp_operation
