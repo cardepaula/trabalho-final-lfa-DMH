@@ -7,6 +7,7 @@
 
 import sys, os
 from lark import Lark, Tree
+from DMHEvaluateTree import *
 
 _GRAMMAR_PATH: str = os.path.dirname(os.path.abspath(__file__)) + "/../grammar/"
 _GRAMMAR_FILENAME: str = "grammar.lark"
@@ -24,6 +25,7 @@ except IOError as err:
 except Exception as err:
     print(err)
     sys.exit(1)
+
 
 class DMHParser:
     def __init__(self):
@@ -59,22 +61,29 @@ class DMHParser:
         self._tree = self._parser.parse(self._inputExpr)
 
         return self._tree
-        
+
+
 ################################### TESTANDO A CLASSE DE FORMA UNITÁRIA ###################################
 def main():
     parser: DMHParser = DMHParser()
+    valueteTree: DMHEvaluateTree = DMHEvaluateTree()
 
     while True:
         try:
             expr = input('>>> ').strip()
+            print(expr)
             if (expr == ":q"):
                 break
             
             tree: Tree = parser.parseTree(expr)
-            print("Parse Tree:\n {0}".format(tree.pretty()))
-            
-            #for i in tree.iter_subtrees():
-            #    print(i)
+            #print("Parse Tree:\n {0}".format(tree.pretty()))
+            print("TREE >>> ", tree)
+            print("CHILDs >> ", tree.children)
+            print("DATA >>> ", tree.data)
+
+            for child in tree.children:
+                print("FOR-CHILD >>> ", child)
+                valueteTree.start(child)
 
         except EOFError:
             print("Invalid Data Input")
@@ -105,6 +114,7 @@ def testExpressions():
 
     for expr in expressions:
         print("Expression: {0} = {1}".format(expr, parser.checkExpression(expr)))
+
 
 # Para testes unitários
 if __name__ == '__main__':

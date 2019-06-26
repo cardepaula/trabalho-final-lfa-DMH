@@ -2,6 +2,7 @@ import argparse
 from models.DMHParser import DMHParser
 from models.DMHEvaluateTree import DMHEvaluateTree
 
+
 def main():
     parser: DMHParser = DMHParser()
 
@@ -19,7 +20,6 @@ def main():
         except Exception as err:
             print("{0}\n".format(err))
 
-    
     return 0
 
 

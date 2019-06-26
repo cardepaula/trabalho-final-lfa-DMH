@@ -1,4 +1,4 @@
-start: expr ";"
+start: expr ";" (expr ";")*
 
 expr: assignment
     | ifexpr
@@ -14,10 +14,10 @@ whileexpr: "while" comp "do" block -> while_expr
 
 block: "{" start* "}"
 
-assignment: "var" NAME "=" aexpr -> assign_var
+assignment: VAR NAME "=" aexpr -> assign_var
           | NAME "=" aexpr -> reassign_var
 
-funct: "defun" NAME "(" ")" "do" functblock -> def_function
+funct: DEFUN NAME "(" ")" "do" functblock -> def_function
 
 functblock: "{" start* functreturn "}"
 
@@ -54,6 +54,8 @@ OP_POW: "^"
 OP_LEFT: "+" | "-"
 OP_COMP: "==" | "!=" | ">=" | "<=" | ">" | "<"
 TRIG: "sen" | "cos" | "tang" | "arcsen" | "arccos" | "arctang"
+VAR: "var"
+DEFUN: "defun"
 
 %import common.CNAME -> NAME
 %import common.SIGNED_NUMBER -> NUMBER

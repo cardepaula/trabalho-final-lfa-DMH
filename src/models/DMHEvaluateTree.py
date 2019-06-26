@@ -6,6 +6,8 @@
 '''
 
 import sys, os, math
+from lark import Tree
+
 
 class DMHEvaluateTree:
     def __init__(self):
@@ -23,10 +25,13 @@ class DMHEvaluateTree:
         return float(value)
 
     # Métodos para o handler de variáveis (assinatura, reassinatura e recuperação) #
-    def assign_var(self, name, value):
-        if (name not in self.vars):
-            self.vars[name] = value
-            return value
+    def assign_var(self, t: Tree):
+
+        
+        for child in t.children:
+            if (name not in self.vars):
+                self.vars[name] = value
+                return value
         
         raise Exception("Error: Variable '{0}' is already defined".format(name))
 
@@ -86,4 +91,57 @@ class DMHEvaluateTree:
         print("xD")
 
     def while_expr(self, valExpr1, valExpr2):
+        while (valExpr1):
+            valExpr2
         print("xD")
+
+    def start(self, t: Tree):
+        self.p_debug(t)
+        for child in t.children:
+            self.expr(child)
+
+    def expr(self, t: Tree):
+        if t.data == 'assign_var':
+            self.p_debug(t)
+            for child in t.children:
+                print(child)
+                # self.assign_var(child)
+            # self.assign_var(t.children)
+        elif t.data == 'if_expr':
+            print("EXPR >>>", t.data)
+            self.if_expr(t.children)
+        elif t.data == 'while_expr':
+            print("EXPR >>>", t.data)
+            self.while_expr(t.children)
+        elif t.data == 'def_function':
+            print("EXPR >>>", t.data)
+            self.def_function(t.children)
+        elif t.data == 'block':
+            print("EXPR >>>", t.data)
+            self.block(t.children)
+        elif t.data == 'aexpr':
+            print("EXPR >>>", t.data)
+            self.aexpr(t.children)
+        elif t.data == 'print_screen':
+            print("EXPR >>>", t.data)
+            self.print_screen(t.children)
+
+    def def_function(self, t: Tree):
+        print("DEF_FUNCTION >>>", t.data)
+
+    def block(self, t: Tree):
+        print("BLOCK >>>", t.data)
+
+    def aexpr(self, t: Tree):
+        print("AEXPR >>>", t.data)
+
+    def print_screen(self, t:Tree):
+        print("PRINT_SCREEN >>>", t.data)
+
+
+    # print de debug da arvore
+    def p_debug(self, tree: Tree):
+        print("DATA >>> ", tree.data)
+        print("TREE >>> ", tree)
+        print("CHILD >> ", tree.children)
+
