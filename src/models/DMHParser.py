@@ -7,7 +7,6 @@
 
 import sys, os
 from lark import Lark, Tree
-from DMHEvaluateTree import *
 
 _GRAMMAR_PATH: str = os.path.dirname(os.path.abspath(__file__)) + "/../grammar/"
 _GRAMMAR_FILENAME: str = "grammar.lark"
@@ -67,7 +66,6 @@ class DMHParser:
 def main():
     
     parser: DMHParser = DMHParser()
-    valueteTree: DMHEvaluateTree
 
     while True:
         try:
@@ -78,9 +76,6 @@ def main():
             
             tree: Tree = parser.parseTree(expr)
             print("Parse Tree:\n {0}".format(tree.pretty()))
-            valueteTree = DMHEvaluateTree(tree)
-            aux = valueteTree.evaluete()
-            print("____", aux)
         except EOFError:
             print("Invalid Data Input")
         except Exception as err:

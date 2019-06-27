@@ -31,22 +31,28 @@ comp: aexpr OP_COMP aexpr -> comp_operation
     | "(" aexpr OP_COMP aexpr ")" -> comp_operation
 
 aexpr: term
-     | aexpr OP_TERM term -> term_operation
+     | aexpr OP_TERM term
 
 term: factor
-    | term OP_FACTOR factor -> factor_operation
+    | term OP_FACTOR factor
 
 factor: trig
-      | trig OP_POW factor -> pow_operation
+      | factor OP_POW trig
 
 trig: base
-    | TRIG base -> trig_operation
+    | TRIG base
 
-base: OP_LEFT base -> left_operation
-    | NUMBER -> number
-    | NAME -> get_var
+base: leftoperation
+    | number 
+    | getvar
     | functcall
     | "(" aexpr ")"
+
+leftoperation: OP_LEFT base
+
+number: NUMBER
+
+getvar: NAME
 
 OP_TERM: "+" | "-"
 OP_FACTOR: "//" | "*" | "/" | "%"
