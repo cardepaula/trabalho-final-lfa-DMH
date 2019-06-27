@@ -117,25 +117,27 @@ class DMHEvaluateTree:
                 print("EXPR_TREE >>>", child)
                 print("EXPR >>>", child.data)
                 print("EXPR >>>", child.children)
-                self.assign_var(child)
+                self.__assign_var(child)
             elif child.data == 'if_expr':
                 print("EXPR >>>", t.data)
-                self.if_expr(child)
+                self.__if_expr(child)
             elif child.data == 'while_expr':
                 print("EXPR >>>", t.data)
-                self.while_expr(child)
+                self.__while_expr(child)
             elif child.data == 'def_function':
                 print("EXPR >>>", t.data)
-                self.def_function(child)
+                self.__def_function(child)
             elif child.data == 'block':
                 print("EXPR >>>", t.data)
-                self.block(child)
+                self.__block(child)
             elif child.data == 'aexpr':
                 print("EXPR >>>", t.data)
-                self.aexpr(child)
+                self.__aexpr(child)
             elif child.data == 'print_screen':
                 print("EXPR >>>", t.data)
-                self.print_screen(child)
+                self.__print_screen(child)
+            elif child.data == 'term_operation':
+
 
     def __def_function(self, t: Tree):
         print("DEF_FUNCTION >>>", t.data)
@@ -148,20 +150,20 @@ class DMHEvaluateTree:
         for child in t.children:
             if child.data == "term":
                 print("AEXPR-TERM:", child.data)
-                self.term(child)
+                self.__term(child)
             elif child.data == "term_operation":
                 print("AEXPR-TERM-OP:", child.data)
-                self.term_operation(child)
+                self.__term_operation(child)
 
     def __term(self, t: Tree):
         print("TERM >>>", t)
         for child in t.children:
             if child.data == "factor":
                 print("TERM-FACTOR:", child.data)
-                self.factor(child)
+                self.__factor(child)
             elif child.data == "factor_operation":
-                print("TERM-FAACTOR-OP:", child.data)
-                self.factor_operation(child)
+                print("TERM-FACTOR-OP:", child.data)
+                self.__factor_operation(child)
 
     def __term_operation(self, t: Tree):
         print("TERM-OP >>>", t)

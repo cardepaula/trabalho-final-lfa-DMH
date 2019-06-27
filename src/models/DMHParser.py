@@ -76,9 +76,9 @@ def main():
                 break
             
             tree: Tree = parser.parseTree(expr)
-            valueteTree = DMHEvaluateTree(tree)
-            valueteTree.evaluete()
-            #print("Parse Tree:\n {0}".format(tree.pretty()))
+            #valueteTree = DMHEvaluateTree(tree)
+            #valueteTree.evaluete()
+            print("Parse Tree:\n {0}".format(tree.pretty()))
             print("TREE >>> ", tree)
             # print("CHILDs >> ", tree.children)
             # print("DATA >>> ", tree.data)
