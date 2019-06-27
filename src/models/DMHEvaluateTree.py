@@ -10,9 +10,13 @@ from lark import Tree
 
 
 class DMHEvaluateTree:
-    def __init__(self):
-        self.vars = {}
-        self.functs = {}
+    def __init__(self, tree: Tree):
+        self.__vars = {}
+        self.__functs = {}
+        self.__tree = tree
+
+    def evaluete(self):
+        self.__start(self.__tree)
 
     def teste(self, *args):
         return "Testing"
@@ -21,126 +25,163 @@ class DMHEvaluateTree:
     from operator import add, sub, mul, truediv as div, floordiv, mod, pos, neg, pow, eq, ne, lt, le, gt, ge
 
     # Método de conversão para um float #
-    def number(self, value):
+    def __number(self, value):
         return float(value)
 
     # Métodos para o handler de variáveis (assinatura, reassinatura e recuperação) #
-    def assign_var(self, t: Tree):
+    def __assign_var(self, t: Tree):
 
-        
-        for child in t.children:
-            if (name not in self.vars):
-                self.vars[name] = value
-                return value
-        
-        raise Exception("Error: Variable '{0}' is already defined".format(name))
+        name = t.children[1]
+        value = t.children[2]
 
-    def reassign_var(self, name, value):
-        if (name in self.vars):
-            self.vars[name] = value
-            return value
-        
-        raise Exception("Error: Variable '{0}' is not defined".format(name))
+        if (name not in self.__vars):
+            print("VAR '{0}' Nao existe ainda.".format(name))
+            print("VALUE:", value)
+            self.aexpr(value)
+        else:
+            raise Exception("Error: Variable '{0}' is already defined".format(name))
 
-    def get_var(self, name):
-        if (name in self.vars):
-            return self.vars[name]
+        # for child in t.children:
+            # if child.children == "var" :
+            # if (name not in self.vars):
+            #     self.vars[name] = value
+            #     return value
+
+    def __reassign_var(self, t: Tree):
+
+        name = t.children[0]
+        value = t.children[1]
+
+        if name in self.__vars:
+            print("VAR '{0}' Existe.".format(name))
+            print("VALUE:", value)
+            self.aexpr(value)
+        else:
+            raise Exception("Error: Variable '{0}' is not defined".format(name))
+        
+
+
+    def __get_var(self, name):
+        if (name in self.__vars):
+            return self.__vars[name]
         
         raise Exception("Error: Variable {0} does not exist".format(name))
 
     # Métodos lida com operações trigonométricas recebendo valor em graus #
-    def sen(self, deg_value):
+    def __sen(self, deg_value):
         radian = math.radians(deg_value)
         return round(math.sin(radian), 10)
 
-    def cos(self, deg_value):
+    def __cos(self, deg_value):
         radian = math.radians(deg_value)
         return round(math.cos(radian), 10)
 
-    def tang(self, deg_value):
+    def __tang(self, deg_value):
         radian = math.radians(deg_value)
         return round(math.tan(radian), 10)
 
-    def arcsen(self, deg_value):
+    def __arcsen(self, deg_value):
         radian = math.radians(deg_value)
         return round(math.asin(radian), 10)
 
-    def arccos(self, deg_value):
+    def __arccos(self, deg_value):
         radian = math.radians(deg_value)
         return round(math.acos(radian), 10)
 
-    def arctang(self, deg_value):
+    def __arctang(self, deg_value):
         radian = math.radians(deg_value)
         return round(math.atan(radian), 10)
 
-    # Métodos que lida com operações lógicas AND e OR #
-    def or_expr(self, value, *values):
-        if (len(values) == 0):
-            return value
-
-    def and_expr(self, value, *values):
-        if (len(values) == 0):
-            return value
-
     # Métodos que lida com estruturas de condição(if) e repetição(while)
-    def if_expr(self, valExpr1, valExpr2, valExpr3 = None):
+    def __if_expr(self, valExpr1, valExpr2, valExpr3 = None):
         if (valExpr1):
             return valExpr2
         else:
             return valExpr3
         print("xD")
 
-    def while_expr(self, valExpr1, valExpr2):
+    def __while_expr(self, valExpr1, valExpr2):
         while (valExpr1):
             valExpr2
         print("xD")
 
-    def start(self, t: Tree):
-        self.p_debug(t)
+    ###
+    def __start(self, t: Tree):
+        print(t.children)
         for child in t.children:
             self.expr(child)
 
-    def expr(self, t: Tree):
-        if t.data == 'assign_var':
-            self.p_debug(t)
-            for child in t.children:
-                print(child)
-                # self.assign_var(child)
-            # self.assign_var(t.children)
-        elif t.data == 'if_expr':
-            print("EXPR >>>", t.data)
-            self.if_expr(t.children)
-        elif t.data == 'while_expr':
-            print("EXPR >>>", t.data)
-            self.while_expr(t.children)
-        elif t.data == 'def_function':
-            print("EXPR >>>", t.data)
-            self.def_function(t.children)
-        elif t.data == 'block':
-            print("EXPR >>>", t.data)
-            self.block(t.children)
-        elif t.data == 'aexpr':
-            print("EXPR >>>", t.data)
-            self.aexpr(t.children)
-        elif t.data == 'print_screen':
-            print("EXPR >>>", t.data)
-            self.print_screen(t.children)
+    def __expr(self, t: Tree):
+        for child in t.children:
+            if child.data == 'assign_var':
+                print("EXPR_TREE >>>", child)
+                print("EXPR >>>", child.data)
+                print("EXPR >>>", child.children)
+                self.assign_var(child)
+            elif child.data == 'if_expr':
+                print("EXPR >>>", t.data)
+                self.if_expr(child)
+            elif child.data == 'while_expr':
+                print("EXPR >>>", t.data)
+                self.while_expr(child)
+            elif child.data == 'def_function':
+                print("EXPR >>>", t.data)
+                self.def_function(child)
+            elif child.data == 'block':
+                print("EXPR >>>", t.data)
+                self.block(child)
+            elif child.data == 'aexpr':
+                print("EXPR >>>", t.data)
+                self.aexpr(child)
+            elif child.data == 'print_screen':
+                print("EXPR >>>", t.data)
+                self.print_screen(child)
 
-    def def_function(self, t: Tree):
+    def __def_function(self, t: Tree):
         print("DEF_FUNCTION >>>", t.data)
 
-    def block(self, t: Tree):
+    def __block(self, t: Tree):
         print("BLOCK >>>", t.data)
 
-    def aexpr(self, t: Tree):
-        print("AEXPR >>>", t.data)
+    def __aexpr(self, t: Tree):
+        print("AEXPR >>>", t)
+        for child in t.children:
+            if child.data == "term":
+                print("AEXPR-TERM:", child.data)
+                self.term(child)
+            elif child.data == "term_operation":
+                print("AEXPR-TERM-OP:", child.data)
+                self.term_operation(child)
 
-    def print_screen(self, t:Tree):
+    def __term(self, t: Tree):
+        print("TERM >>>", t)
+        for child in t.children:
+            if child.data == "factor":
+                print("TERM-FACTOR:", child.data)
+                self.factor(child)
+            elif child.data == "factor_operation":
+                print("TERM-FAACTOR-OP:", child.data)
+                self.factor_operation(child)
+
+    def __term_operation(self, t: Tree):
+        print("TERM-OP >>>", t)
+        print("TERM-OP-AEX >>>", t.children[0])
+        print("TERM-OP-OP >>>", t.children[1])
+        print("TERM-OP-TERM >>>", t.children[2])
+        term1 = self.aexpr(t.children[0])
+        op = t.children[1]
+        term2 = t.children[2]
+        if t.children[1] == "+":
+            return term1 + term2
+        elif t.children[1] == "-":
+            return term1 + term2
+
+            i
+    def __print_screen(self, t: Tree):
         print("PRINT_SCREEN >>>", t.data)
 
-
     # print de debug da arvore
-    def p_debug(self, tree: Tree):
+    def __p_debug(self, tree: Tree):
         print("DATA >>> ", tree.data)
         print("TREE >>> ", tree)
         print("CHILD >> ", tree.children)
