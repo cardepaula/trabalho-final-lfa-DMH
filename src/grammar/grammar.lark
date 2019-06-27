@@ -1,4 +1,4 @@
-start: expr ";" (expr ";")*
+start: expr ";"
 
 expr: assignment
     | ifexpr

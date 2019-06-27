@@ -13,6 +13,8 @@ def main():
                 break
             
             tree = parser.parseTree(expr)
+            valueteTree = DMHEvaluateTree(tree)
+            aux = valueteTree.evaluete()
             print("Parse Tree:\n {0}".format(tree.pretty()))
             # DEPOIS DE CONSTRUIR A ÁRVORE CHAMA O EVALUATE TREE PARA PEGAR OS VALORES
         except EOFError:
@@ -25,7 +27,6 @@ def main():
 
 if __name__ == '__main__':
     main()
-
 
 # parser = argparse.ArgumentParser()
 #     parser.add_argument("--file", help="input file")

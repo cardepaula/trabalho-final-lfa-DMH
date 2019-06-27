@@ -65,6 +65,7 @@ class DMHParser:
 
 ################################### TESTANDO A CLASSE DE FORMA UNITÁRIA ###################################
 def main():
+    
     parser: DMHParser = DMHParser()
     valueteTree: DMHEvaluateTree
 
@@ -76,15 +77,10 @@ def main():
                 break
             
             tree: Tree = parser.parseTree(expr)
-            #valueteTree = DMHEvaluateTree(tree)
-            #valueteTree.evaluete()
             print("Parse Tree:\n {0}".format(tree.pretty()))
-            print("TREE >>> ", tree)
-            # print("CHILDs >> ", tree.children)
-            # print("DATA >>> ", tree.data)
-
-            #valueteTree.start(tree)
-
+            valueteTree = DMHEvaluateTree(tree)
+            aux = valueteTree.evaluete()
+            print("____", aux)
         except EOFError:
             print("Invalid Data Input")
         except Exception as err:
