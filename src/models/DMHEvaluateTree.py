@@ -23,16 +23,18 @@ class DMHEvaluateTree:
     def tree(self, value: Tree):
         self._tree = value
 
-    def evaluete(self):
-        '''Pega o evaluate tree da parse árvore do objeto'''
+    def evaluate(self):
+        '''Pega o evaluate tree da parse da árvore do objeto'''
         return self.__start(self._tree)
 
     # Início da gramática
+    # <expr> ";" (<expr> ";")*
     def __start(self, t: Tree):
-        child = t.children[0]
-        return self.__expr(child)
+        for child in t.children:
+            self.__expr(child)
 
     # Seleção das expressões definidas na gramática
+    # assignment | ifexpr | whileexpr | funct | aexpr | print
     def __expr(self, t: Tree):
         child = t.children[0]
 
@@ -97,7 +99,6 @@ class DMHEvaluateTree:
         while(self.__comp_operation(t.children[0])):
             self.__block(t.children[1])
 
-
     def __comp_operation(self, t: Tree) -> bool:
         aexpr_letf: float = self.__aexpr(t.children[0])
         op_comp: str = t.children[1].value
@@ -135,7 +136,6 @@ class DMHEvaluateTree:
         return self.__functblock(funct_block)
 
     def __functblock(self, t: Tree) -> float:
-
         for child in t.children:
             if (child.data == "start"):
                 self.__start(child)
@@ -147,9 +147,10 @@ class DMHEvaluateTree:
         return aexpr
 
     # Definição de blocos de escopo do código
+    # "{" <start> "}"
     def __block(self, t: Tree) -> object:
-        for child in t.children:
-            self.__start(child)
+        child: Tree = t.children[0]
+        return self.__start(child)
 
     # Printar informações na tela
     def __print_screen(self, t: Tree) -> None:
@@ -355,7 +356,7 @@ def testExpressions():
     for expr in expressions:
         tree = parser.parseTree(expr)
         valueteTree.tree = tree
-        aux = valueteTree.evaluete()
+        aux = valueteTree.evaluate()
         print("Expression: {0} = {1}".format(expr, aux))
 
 

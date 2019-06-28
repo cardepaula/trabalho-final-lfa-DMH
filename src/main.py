@@ -15,7 +15,7 @@ def main():
             tree = parser.parseTree(expr)
             print("Parse Tree:\n {0}".format(tree.pretty()))
             valueteTreeContext.tree = tree
-            aux = valueteTreeContext.evaluete()
+            aux = valueteTreeContext.evaluate()
             if aux is not None:
                 print(aux)
         except EOFError:

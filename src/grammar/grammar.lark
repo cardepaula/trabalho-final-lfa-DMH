@@ -1,10 +1,9 @@
-start: expr ";"
+start: expr ";" (expr ";")*
 
 expr: assignment
     | ifexpr
     | whileexpr
     | funct
-    | block
     | aexpr
     | print
 
@@ -12,14 +11,14 @@ ifexpr: "if" comp "do" block ["else" "do" block] -> if_expr
 
 whileexpr: "while" comp "do" block -> while_expr
 
-block: "{" start* "}"
+block: "{" start "}"
 
 assignment: "var" NAME "=" aexpr -> assign_var
           | NAME "=" aexpr -> reassign_var
 
 funct: "defun" NAME "(" ")" "do" functblock -> def_function
 
-functblock: "{" start* functreturn "}"
+functblock: "{" start functreturn "}"
 
 functreturn: "returns" aexpr ";"
 
