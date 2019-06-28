@@ -4,6 +4,7 @@ from models.DMHEvaluateTree import DMHEvaluateTree
 
 def main():
     parser: DMHParser = DMHParser()
+    valueteTreeContext = DMHEvaluateTree()
 
     while True:
         try:
@@ -13,9 +14,10 @@ def main():
             
             tree = parser.parseTree(expr)
             print("Parse Tree:\n {0}".format(tree.pretty()))
-            valueteTree = DMHEvaluateTree(tree)
-            aux = valueteTree.evaluete()
-            print(aux)
+            valueteTreeContext.tree = tree
+            aux = valueteTreeContext.evaluete()
+            if aux is not None:
+                print(aux)
         except EOFError:
             print("Invalid Data Input")
         except Exception as err:

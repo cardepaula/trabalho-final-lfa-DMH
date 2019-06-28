@@ -76,6 +76,7 @@ def main():
             
             tree: Tree = parser.parseTree(expr)
             print("Parse Tree:\n {0}".format(tree.pretty()))
+            print("Parse Tree:\n {0}".format(tree))
         except EOFError:
             print("Invalid Data Input")
         except Exception as err:

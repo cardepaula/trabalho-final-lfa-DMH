@@ -8,6 +8,7 @@
 import sys, os, math
 from lark import Tree, Token
 
+
 class DMHEvaluateTree:
     def __init__(self, tree: Tree = None):
         self._vars = {}
@@ -36,7 +37,9 @@ class DMHEvaluateTree:
         child = t.children[0]
 
         if child.data == 'assign_var':
-            return self.__assign_var(child)
+            self.__assign_var(child)
+        elif child.data == 'reassign_var':
+            self.__reassign_var(child)
         elif child.data == 'if_expr':
             return self.__if_expr(child)
         elif child.data == 'while_expr':
@@ -55,67 +58,103 @@ class DMHEvaluateTree:
     # Assinatura, reassinatura e recuperação de variável
     def __assign_var(self, t: Tree):
 
-        name = t.children[1]
-        value = t.children[2]
+        name: str = t.children[0].value
+        aexpr: Tree = t.children[1]
 
-        if (name not in self._vars):
-            print("VAR '{0}' Nao existe ainda.".format(name))
-            print("VALUE:", value)
-            self.__aexpr(value)
-        else:
+        if (name in self._vars):
             raise Exception("Error: Variable '{0}' is already defined".format(name))
 
-        # for child in t.children:
-            # if child.children == "var" :
-            # if (name not in self.vars):
-            #     self.vars[name] = value
-            #     return value
+        self._vars[name] = self.__aexpr(aexpr)
 
     def __reassign_var(self, t: Tree):
 
-        name = t.children[0]
-        value = t.children[1]
+        name: str = t.children[0].value
+        aexpr: Tree = t.children[1]
 
-        if name in self._vars:
-            print("VAR '{0}' Existe.".format(name))
-            print("VALUE:", value)
-            self.__aexpr(value)
-        else:
+        if (name not in self._vars):
             raise Exception("Error: Variable '{0}' is not defined".format(name))
 
-    def __get_var(self, name):
-        pass
-        #if (name in self._vars):
-        #    return self._vars[name]
+        self._vars[name] = self.__aexpr(aexpr)
+
+    def __get_var(self, t: Tree):
+        name = t.children[0].value
+
+        if (name in self._vars):
+            return self._vars[name]
         
         raise Exception("Error: Variable {0} does not exist".format(name))
 
     # Estruturas de seleção(if) e repetição(while)
-    def __if_expr(self, valExpr1 = None, valExpr2 = None, valExpr3 = None):
-        # if (valExpr1):
-        #     return valExpr2
-        # else:
-        #     return valExpr3
-        # print("xD")
-        pass
+    def __if_expr(self, t: Tree):
+        op_comp: bool = self.__comp_operation(t.children[0])
 
-    def __while_expr(self, valExpr1 = None, valExpr2 = None):
-        #while (valExpr1):
-        #     valExpr2
-        # print("xD")
-        pass
+        if (op_comp):
+            self.__block(t.children[1])
+        elif len(t.children) == 3:
+            self.__block(t.children[2])
+
+    def __while_expr(self, t: Tree):
+        while(self.__comp_operation(t.children[0])):
+            self.__block(t.children[1])
+
+
+    def __comp_operation(self, t: Tree) -> bool:
+        aexpr_letf: float = self.__aexpr(t.children[0])
+        op_comp: str = t.children[1].value
+        aexpr_right: float = self.__aexpr(t.children[2])
+
+        if op_comp == "==":
+            return aexpr_letf == aexpr_right
+        elif op_comp == "!=":
+            return aexpr_letf != aexpr_right
+        elif op_comp == ">=":
+            return aexpr_letf >= aexpr_right
+        elif op_comp == "<=":
+            return aexpr_letf <= aexpr_right
+        elif op_comp == ">":
+            return aexpr_letf > aexpr_right
+        elif op_comp == "<":
+            return aexpr_letf < aexpr_right
 
     # Definições e chamadas de funções
-    def __def_function(self, t: Tree):
-        print("DEF_FUNCTION >>>", t.data)
+    def __def_function(self, t: Tree) -> None:
+        funct_name: str = t.children[0].value
+
+        if (funct_name in self._functs):
+            raise Exception("Error: Function '{0}' is already defined".format(funct_name))
+
+        self._functs[funct_name] = t.children[1]
+
+    def __functcall(self, t: Tree):
+        funct_name: Token = t.children[0].value
+
+        if (funct_name not in self._functs):
+            raise Exception("Error: Function '{0}' is not defined".format(funct_name))
+
+        funct_block: Tree = self._functs[funct_name]
+        return self.__functblock(funct_block)
+
+    def __functblock(self, t: Tree) -> float:
+
+        for child in t.children:
+            if (child.data == "start"):
+                self.__start(child)
+            elif (child.data == "functreturn"):
+                return self.__functreturn(child)
+
+    def __functreturn(self, t: Tree) -> float:
+        aexpr: float = self.__aexpr(t.children[0])
+        return aexpr
 
     # Definição de blocos de escopo do código
-    def __block(self, t: Tree):
-        print("BLOCK >>>", t.data)
+    def __block(self, t: Tree) -> object:
+        for child in t.children:
+            self.__start(child)
 
     # Printar informações na tela
-    def __print_screen(self, t: Tree):
-        print("PRINT_SCREEN >>>", t.data)
+    def __print_screen(self, t: Tree) -> None:
+        aexpr: float = self.__aexpr(t.children[0])
+        print(aexpr)
 
     # Lidar com números e cálculos matemáticos em geral #
 
@@ -252,14 +291,16 @@ class DMHEvaluateTree:
     def __base(self, t: Tree):
         child = t.children[0]
 
-        if child.data == 'leftoperation':
+        if (isinstance(child, Token) and child.type == 'TRIG'):
+            return self.__trig_operation(t)
+        elif child.data == 'leftoperation':
             return self.__left_operation(child)
         elif child.data == 'number':
             return self.__number(child)
         elif child.data == 'getvar':
-            pass
+            return self.__get_var(child)
         elif child.data == 'functcall':
-            pass
+            return self.__functcall(child)
         elif child.data == 'aexpr':
             return self.__aexpr(child)
 
@@ -270,7 +311,6 @@ class DMHEvaluateTree:
 
         if (op_left == '-'):
             return -1 * base
-        
         return base
 
     # <number>
@@ -308,7 +348,9 @@ def testExpressions():
                          "cos(90);",
                          "tang(20);",
                          "arccos(15);",
-                         "sen(63) * 12 - 321 // 213;"]
+                         "sen(63) * 12 - 321 // 213;",
+                         "-sen(60);",
+                         "var x = 9;"]
 
     for expr in expressions:
         tree = parser.parseTree(expr)

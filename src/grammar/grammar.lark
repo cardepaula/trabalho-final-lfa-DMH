@@ -46,6 +46,7 @@ base: leftoperation
     | number 
     | getvar
     | functcall
+    | TRIG base
     | "(" aexpr ")"
 
 leftoperation: OP_LEFT base
