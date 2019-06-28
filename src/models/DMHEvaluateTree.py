@@ -5,7 +5,7 @@
     passada como entrada seguindo as regras definidas pela gramática da linguagem DMH
 '''
 
-import sys, os, math
+import math
 from lark import Tree, Token
 
 
@@ -35,30 +35,30 @@ class DMHEvaluateTree:
 
     # Seleção das expressões definidas na gramática
     # assignment | ifexpr | whileexpr | funct | aexpr | print
-    def __expr(self, t: Tree):
-        child = t.children[0]
+    def __expr(self, t: Tree) -> object:
+        first_child: Tree = t.children[0]
 
-        if child.data == 'assign_var':
-            self.__assign_var(child)
-        elif child.data == 'reassign_var':
-            self.__reassign_var(child)
-        elif child.data == 'if_expr':
-            return self.__if_expr(child)
-        elif child.data == 'while_expr':
-            return self.__while_expr(child)
-        elif child.data == 'def_function':
-            return self.__def_function(child)
-        elif child.data == 'block':
-            return self.__block(child)
-        elif child.data == 'aexpr':
-            return self.__aexpr(child)
-        elif child.data == 'print_screen':
-            return self.__print_screen(child)
+        if first_child.data == 'assign_var':
+            self.__assign_var(first_child)
+        elif first_child.data == 'reassign_var':
+            self.__reassign_var(first_child)
+        elif first_child.data == 'if_expr':
+            return self.__if_expr(first_child)
+        elif first_child.data == 'while_expr':
+            return self.__while_expr(first_child)
+        elif first_child.data == 'def_function':
+            return self.__def_function(first_child)
+        elif first_child.data == 'block':
+            return self.__block(first_child)
+        elif first_child.data == 'aexpr':
+            return self.__aexpr(first_child)
+        elif first_child.data == 'print_screen':
+            return self.__print_screen(first_child)
         else:
             raise Exception("It's not a valid expression.")
 
     # Assinatura, reassinatura e recuperação de variável
-    def __assign_var(self, t: Tree):
+    def __assign_var(self, t: Tree) -> None:
 
         name: str = t.children[0].value
         aexpr: Tree = t.children[1]
@@ -68,7 +68,7 @@ class DMHEvaluateTree:
 
         self._vars[name] = self.__aexpr(aexpr)
 
-    def __reassign_var(self, t: Tree):
+    def __reassign_var(self, t: Tree) -> None:
 
         name: str = t.children[0].value
         aexpr: Tree = t.children[1]
@@ -78,8 +78,8 @@ class DMHEvaluateTree:
 
         self._vars[name] = self.__aexpr(aexpr)
 
-    def __get_var(self, t: Tree):
-        name = t.children[0].value
+    def __get_var(self, t: Tree) -> float:
+        name: float = t.children[0].value
 
         if (name in self._vars):
             return self._vars[name]
@@ -87,7 +87,7 @@ class DMHEvaluateTree:
         raise Exception("Error: Variable {0} does not exist".format(name))
 
     # Estruturas de seleção(if) e repetição(while)
-    def __if_expr(self, t: Tree):
+    def __if_expr(self, t: Tree) -> None:
         op_comp: bool = self.__comp_operation(t.children[0])
 
         if (op_comp):
@@ -95,8 +95,8 @@ class DMHEvaluateTree:
         elif len(t.children) == 3:
             self.__block(t.children[2])
 
-    def __while_expr(self, t: Tree):
-        while(self.__comp_operation(t.children[0])):
+    def __while_expr(self, t: Tree) -> None:
+        while (self.__comp_operation(t.children[0])):
             self.__block(t.children[1])
 
     def __comp_operation(self, t: Tree) -> bool:
@@ -126,7 +126,7 @@ class DMHEvaluateTree:
 
         self._functs[funct_name] = t.children[1]
 
-    def __functcall(self, t: Tree):
+    def __functcall(self, t: Tree) -> float:
         funct_name: Token = t.children[0].value
 
         if (funct_name not in self._functs):
@@ -149,8 +149,8 @@ class DMHEvaluateTree:
     # Definição de blocos de escopo do código
     # "{" <start> "}"
     def __block(self, t: Tree) -> object:
-        child: Tree = t.children[0]
-        return self.__start(child)
+        first_child: Tree = t.children[0]
+        return self.__start(first_child)
 
     # Printar informações na tela
     def __print_screen(self, t: Tree) -> None:
@@ -160,19 +160,19 @@ class DMHEvaluateTree:
     # Lidar com números e cálculos matemáticos em geral #
 
     # <term> | <aexpr> (+ | -) term
-    def __aexpr(self, t: Tree):
-        first_child = t.children[0]
+    def __aexpr(self, t: Tree) -> float:
+        first_child: Tree = t.children[0]
 
         if (first_child.data == "term" and len(t.children) == 1):
             return self.__term(first_child)
-        elif (first_child.data == "aexpr" and len(t.children) == 3) :
+        elif (first_child.data == "aexpr" and len(t.children) == 3):
             return self.__term_operation(t)
         else:
             raise Exception("Invalid math expression.")
 
     # <factor> | <term> (* | / | // | %) factor
-    def __term(self, t: Tree):
-        first_child = t.children[0]
+    def __term(self, t: Tree) -> float:
+        first_child: Tree = t.children[0]
 
         if (first_child.data == "factor" and len(t.children) == 1):
             return self.__factor(first_child)
@@ -182,9 +182,9 @@ class DMHEvaluateTree:
             raise Exception("Invalid math expression.")
 
     # <aexpr> (+ | -) <term> #
-    def __term_operation(self, t: Tree):
+    def __term_operation(self, t: Tree) -> float:
         aexpr = self.__aexpr(t.children[0])
-        op_term = t.children[1].value
+        op_term: str = t.children[1].value
         term = self.__term(t.children[2])
 
         if op_term == '+':
@@ -195,12 +195,12 @@ class DMHEvaluateTree:
             raise Exception("Invalid term operator. Expect (+ or -) given {0}".format(op_term))
 
     # <trig> | <factor> ^ <trig>
-    def __factor(self, t: Tree):
-        first_child = t.children[0]
+    def __factor(self, t: Tree) -> float:
+        first_child: Tree = t.children[0]
 
-        if (first_child.data == "trig" and len(t.children) == 1):
+        if first_child.data == "trig" and len(t.children) == 1:
             return self.__trig(first_child)
-        elif (first_child.data == "factor" and len(t.children) == 3):
+        elif first_child.data == "factor" and len(t.children) == 3:
             return self.__pow_operation(t)
         else:
             raise Exception("Invalid math expression.")
@@ -223,10 +223,10 @@ class DMHEvaluateTree:
             raise Exception("Invalid factor operator. Expect (*, /, // or %) given {0}".format(op_factor))
 
     # <factor> ^ <trig> #
-    def __pow_operation(self, t: Tree):
-        factor = self.__factor(t.children[0])
-        op_pow = t.children[1].value
-        trig = self.__trig(t.children[2])
+    def __pow_operation(self, t: Tree) -> float:
+        factor: float = self.__factor(t.children[0])
+        op_pow: str = t.children[1].value
+        trig: float = self.__trig(t.children[2])
 
         if (op_pow != '^'):
             raise Exception("Invalid pow operator. Expect (^) given {0}".format(op_pow))
@@ -234,8 +234,8 @@ class DMHEvaluateTree:
         return factor ** trig
 
     # ('sen' | 'cos' | 'tang' | 'arcsen' | 'arccos' | 'arctang') <base>
-    def __trig(self, t: Tree):
-        first_child = t.children[0]
+    def __trig(self, t: Tree) -> float:
+        first_child: Tree = t.children[0]
 
         if (isinstance(first_child, Token) and first_child.type == 'TRIG'):
             return self.__trig_operation(t)
@@ -245,8 +245,8 @@ class DMHEvaluateTree:
             raise Exception("Invalid math expression")
     
     # ('sen' | 'cos' | 'tang' | 'arcsen' | 'arccos' | 'arctang') <base> #
-    def __trig_operation(self, t: Tree):
-        op_trig = t.children[0].value
+    def __trig_operation(self, t: Tree) -> float:
+        op_trig: str = t.children[0].value
         base = self.__base(t.children[1])
 
         if op_trig == 'sen':
@@ -262,68 +262,75 @@ class DMHEvaluateTree:
         elif op_trig == 'arctang':
             return self.__arctang(base)
         else:
-            raise Exception("Invalid trigonometric operator. Expect (sen, cos, tang, arcsen, arccos or arctang) given {0}".format(op_trig))
+            raise Exception('''Invalid trigonometric operator. 
+                            Expect (sen, cos, tang, arcsen, arccos or arctang) given {0}'''.format(op_trig))
 
-    def __sen(self, deg_value):
+    @staticmethod
+    def __sen(deg_value: float) -> float:
         radian = math.radians(deg_value)
         return round(math.sin(radian), 10)
 
-    def __cos(self, deg_value):
+    @staticmethod
+    def __cos(deg_value: float) -> float:
         radian = math.radians(deg_value)
         return round(math.cos(radian), 10)
 
-    def __tang(self, deg_value):
+    @staticmethod
+    def __tang(deg_value: float) -> float:
         radian = math.radians(deg_value)
         return round(math.tan(radian), 10)
 
-    def __arcsen(self, deg_value):
+    @staticmethod
+    def __arcsen(deg_value: float) -> float:
         radian = math.radians(deg_value)
         return round(math.asin(radian), 10)
 
-    def __arccos(self, deg_value):
+    @staticmethod
+    def __arccos(deg_value: float) -> float:
         radian = math.radians(deg_value)
         return round(math.acos(radian), 10)
 
-    def __arctang(self, deg_value):
+    @staticmethod
+    def __arctang(deg_value: float) -> float:
         radian = math.radians(deg_value)
         return round(math.atan(radian), 10)
 
     # Operações básicas da linguagem
-    def __base(self, t: Tree):
-        child = t.children[0]
+    def __base(self, t: Tree) -> float:
+        first_child: Tree = t.children[0]
 
-        if (isinstance(child, Token) and child.type == 'TRIG'):
+        if (isinstance(first_child, Token) and first_child.type == 'TRIG'):
             return self.__trig_operation(t)
-        elif child.data == 'leftoperation':
-            return self.__left_operation(child)
-        elif child.data == 'number':
-            return self.__number(child)
-        elif child.data == 'getvar':
-            return self.__get_var(child)
-        elif child.data == 'functcall':
-            return self.__functcall(child)
-        elif child.data == 'aexpr':
-            return self.__aexpr(child)
+        elif first_child.data == 'leftoperation':
+            return self.__left_operation(first_child)
+        elif first_child.data == 'number':
+            return self.__number(first_child)
+        elif first_child.data == 'getvar':
+            return self.__get_var(first_child)
+        elif first_child.data == 'functcall':
+            return self.__functcall(first_child)
+        elif first_child.data == 'aexpr':
+            return self.__aexpr(first_child)
 
     # (+ | -) <base>
     def __left_operation(self, t: Tree):
-        op_left = t.children[0].value
-        base = self.__base(t.children[1])
+        op_left: str = t.children[0].value
+        base: float = self.__base(t.children[1])
 
         if (op_left == '-'):
             return -1 * base
         return base
 
     # <number>
-    def __number(self, t: Tree):
-        token = t.children[0]
+    @staticmethod
+    def __number(t: Tree) -> float:
+        token: Token = t.children[0]
         return float(token.value)
-    
 
 
 ################################### TESTANDO A CLASSE DE FORMA UNITÁRIA ###################################
 def testExpressions():
-    from DMHParser import DMHParser
+    from .DMHParser import DMHParser
 
     parser: DMHParser = DMHParser()
     valueteTree: DMHEvaluateTree = DMHEvaluateTree()
