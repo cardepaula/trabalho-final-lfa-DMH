@@ -1,0 +1,15 @@
+var a = 2.321;
+var b = 3;
+var value = 0;
+
+if (a >= b) do {
+	show(a);
+    value = sen(60) * 12 - 321 // 213;
+}
+else do {
+	show(b);
+    value = cos(60) * 12 - 321 // 215;
+};
+
+show(value);
+show(arctang(value));

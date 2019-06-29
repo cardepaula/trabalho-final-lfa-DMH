@@ -63,5 +63,5 @@ TRIG: "sen" | "cos" | "tang" | "arcsen" | "arccos" | "arctang"
 
 %import common.CNAME -> NAME
 %import common.SIGNED_NUMBER -> NUMBER
-%import common.WS_INLINE
-%ignore WS_INLINE
+%import common.WS
+%ignore WS

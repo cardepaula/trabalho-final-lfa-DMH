@@ -64,10 +64,6 @@ class DMHEvaluateTree:
     def __assign_var(self, t: Tree) -> None:
         name: str = t.children[0].value
         aexpr: Tree = t.children[1]
-
-        if (name in self._vars):
-            raise Exception("Error: Variable '{0}' is already defined".format(name))
-
         self._vars[name] = self.__aexpr(aexpr)
 
     # NAME "=" aexpr
