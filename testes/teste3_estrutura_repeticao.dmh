@@ -1,6 +1,7 @@
 var count = 0;
+var limite = 5;
 
-while (count <= 15) do {
+while (count <= limite) do {
     show(count);
     count = count + 1;
 };

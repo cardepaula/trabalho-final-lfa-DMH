@@ -1,0 +1,44 @@
+## Indice de classificacao do IMC ##
+## Classificacao 1: Magreza ##
+## Classificacao 2: Saudavel ##
+## Classificacao 3: Sobrepeso ##
+## Classificacao 4: Obesidade Grau I ##
+## Classificacao 5: Obesidade Grau II ##
+## Classificacao 6: Obesidade Grau III ##
+
+## Funcao que calcula o IMC ##
+defun calculaIMC() do {
+    var imc = peso / (altura^2);
+    var indice = 0;
+
+    if ( imc  < 18.5) do {
+        indice = 1;
+    } else do {
+        if ( imc  < 25) do {
+            indice = 2;
+        } else do{
+            if ( imc  < 30) do {
+                indice = 3;
+            } else do{
+                if ( imc  < 35) do {
+                    indice = 4;
+                } else do{
+                    if ( imc  < 40) do {
+                        indice = 5;
+                    } else do{
+                        indice = 6;
+                    };
+                };
+            };
+        };
+    };
+
+    returns indice;
+};
+
+## Variaveis de scopo global ##
+var peso = 120;
+var altura = 1.60;
+var classificacao = calculaIMC();
+
+show(classificacao);

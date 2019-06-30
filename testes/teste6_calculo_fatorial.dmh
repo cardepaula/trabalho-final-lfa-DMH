@@ -1,0 +1,22 @@
+defun calculaFatorial() do {
+    var count = 1;
+    var limite = n;
+    var f = 1;
+
+    if (n==0) do {
+        f = 1;
+    } else do {
+        while (count <= limite) do {
+            f = f * count;
+            count = count +1;
+        };
+    };
+
+
+    returns f;
+};
+
+var n = -10;
+var fatorial = calculaFatorial();
+
+show(fatorial);

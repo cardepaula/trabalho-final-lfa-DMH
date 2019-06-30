@@ -2,3 +2,8 @@ var a = 1;
 var b = 2;
 var c = 3;
 show(a); show(b); show(c);
+
+a = +++2 - 4.0 / ----1.;
+b = -((2+2)*2)-((2-0)+2);
+c = (-2.3)^2 + 2.2E1 * 2e-12 + 1e+3;
+show(a); show(b); show(c);
