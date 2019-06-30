@@ -5,53 +5,53 @@ if [ -e "$DIR_RELATIVO/env" ]
 then
     source "$DIR_RELATIVO/env/bin/activate" || . "$DIR_RELATIVO/env/bin/activate"
 else
-	echo "Virtual env não encontrado. Deseja criá-lo? [S|n]"
+	echo "Virtual env not found. Do you want to create it? [Y|n]"
 	read RESP
 
 	if [ $RESP = "n" ]
 		then
 		exit
 	else
-		echo "_________Atualizando os repositorios_________"
+		echo "_________Updating repositories_________"
 		sudo apt-get update || sudo pacman -Sy
 
-		echo "_________Instalando o pip_________"
+		echo "_________Installing pip_________"
 		sudo apt install python3-pip python3-venv || sudo pacman -S python-pip
 
-		echo "_________Instalando o graphviz_________"
+		echo "_________Installing graphviz_________"
 		sudo apt install graphviz || sudo pacman -S graphviz
 
-		echo "_________Instalando o virtual env_________"
+		echo "_________Installing virtual env_________"
 		if sudo pip3 install virtualenv
 		then
-			echo "_________Criando o virtual env_________"
+			echo "_________Creating virtual env_________"
 			python3 -p python3 -m venv "$DIR_RELATIVO/env"
 
-			echo "_________Ativando o virtual env_________"
+			echo "_________Enabling virtual env_________"
 			if source "$DIR_RELATIVO/env/bin/activate" || . "$DIR_RELATIVO/env/bin/activate"
 			then
-				echo "_________Instalando o Lark_________"
+				echo "_________Installing Lark_________"
 				echo "\n"
 				pip install lark-parser
-				echo "_________Instalando o Argparse_________"
+				echo "_________Installing Argparse_________"
 				echo "\n"
 				pip install argparse
-				echo "_________Instalando o pydot_________"
+				echo "_________Installing pydot_________"
 				pip install pydot
 				echo "\n\n\n"
 			else
-				echo "_________Error ao ativar o virtual env_________"
+				echo "_________Error activating virtual env_________"
 				exit 1
 			fi
 		else
-			echo "_________Error ao instalar o virtual env_________"
+			echo "_________Error installing virtual env_________"
 			exit 1
 		fi
 		clear
 	fi
 fi
 
-echo "Digite o nome do arquivo para a execução ou tecle enter para entrar no shell "
+echo "Enter the file name to run or press enter to use shell: "
 read ARQ
 
 if [ -z $ARQ ]
