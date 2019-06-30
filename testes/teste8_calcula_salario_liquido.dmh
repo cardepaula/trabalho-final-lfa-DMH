@@ -1,0 +1,56 @@
+
+## Funcao que calcula o salario bruto ##
+defun calculaSalarioBruto() do {
+    returns horas * valor_hora;
+};
+
+## Funcao que calcula o INSS ##
+defun calculaINSS() do {
+    returns calculaSalarioBruto() * 0.11;
+};
+
+## Funcao que calcula o importo de renda ##
+defun calculaIR() do {
+
+    var ir = 0;
+    var sal_inss = calculaSalarioBruto() - calculaINSS();
+
+    if (sal_inss <= 1903.98) do {
+        ir = 0;
+    } else do {
+        if (sal_inss <=  2826.65) do {
+            ir = 0.075 * sal_inss - 142.80;
+        } else do {
+            if (sal_inss <=  3751.05) do {
+                ir = 0.15 * sal_inss - 354.80;
+            } else do {
+                if (sal_inss <=  4664.68) do {
+                    ir = 0.225 * sal_inss - 636.13;
+                } else do {
+                    ir = 0.275 * sal_inss - 869.36;
+                };
+            };
+        };
+    };
+
+    returns ir;
+};
+
+## Funcao que calcula o Salario Liquido ##
+defun calculaSalarioLiquido() do {
+    var sal_bruto = calculaSalarioBruto();
+    var inss = calculaINSS();
+    var imp_renda = calculaIR();
+    show(sal_bruto);
+    show(inss);
+    show(imp_renda);
+
+    returns sal_bruto - inss - imp_renda;
+};
+
+
+## Variáveis globais ##
+var horas = 160;
+var valor_hora = 100;
+var salario_liquido = calculaSalarioLiquido();
+show(salario_liquido);
