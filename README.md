@@ -98,7 +98,7 @@ NUMBER: /-?\d+(\.\d+)?([eE][+-]?\d+)?/
            
 ```
 
-### Descrição geral do código fonte
+### Descrição geral
 O código fonte está estruturado da seguinte maneira:
 
 ```
@@ -118,7 +118,7 @@ trabalho-final-lfa-DHM
 |_ testes
   |_ *arquivos para testes*.dmh
 ```
-## Descrição geral dos arquivos
+#### Descrição geral dos arquivos
 
 Descrição geral dos arquivos contidos nesta aplicação:
 
