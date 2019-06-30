@@ -120,7 +120,7 @@ trabalho-final-lfa-DHM
 ```
 ## Descrição geral dos arquivos
 
-Descrição geral dos arquivos contidos nessa aplicação:
+Descrição geral dos arquivos contidos nesta aplicação:
 
 Arquivo|Path|Descrição
 ---|---|---
@@ -131,18 +131,84 @@ Arquivo|Path|Descrição
 **arquivos de testes.dmh**|testes/*arquivos de testes.dmh*|Diretório que contém os arquivos na extensão *.dmh* contendo o código que segue a gramática da linguagem estabelecida, com proposito de serem utilizados para testar a linguagem.
 **imagens_ast.png**|ast_outifiles/*imagens_ast.png*|Diretório onde são salvos as imagens dos diagramas que representam as árvores dos *arquivos.dmh*. 
 
-*OBS:* As imagens contida no diretório *ast_outifiles/* são geradas quando se executa a aplicação passando um *arquivo.dmh* como argumento.  
+**OBS:** As imagens contida no diretório *ast_outifiles/* são geradas quando se executa a aplicação passando um *arquivo.dmh* como argumento.  
 
 ### Como executar?
-Para buildar/executar o app no ambiente Linux basta abrir o CLI (Command Line Interface) no diretório __/source__ e digitar o seguinte comando:
+Para executar o programa existe duas formas:
+- **Executar o *source/trabalhoFinal.sh*:** 
+
+    - Execução do script:
+    ```bash
+    $ sh ./source/trabalhoFinal.sh
+    ```
+- O script verifica se existe [virtual env](https://pythonacademy.com.br/blog/python-e-virtualenv-como-programar-em-ambientes-virtuais), se não existir ele tenta criar um, e executa o *build.py*;
+- **Executar manualmente:**
+    - Se existir não virtual env (diretório *source/env* ) execute os comandos (de preferencia no diretório *source/* ):
     
-    sh trab2.sh
-
-Outro comando que também pode ser usado é o seguinte:
-
-    ./trab2.sh
-
-__OBS.:__ *Geralmente a primeira execução do programa demora um pouco mais pois necessita atualizar o gerenciador de pacotes para checar dependências e fazer o download, caso necessário, do pip (gerenciador de pacotes do Python) assim como a biblioteca Lark que necessita do pip para ser instalada.*
+        - Atualizando os repositórios do sistema
+        ```bash
+        $ sudo apt-get update (debian based)
+        ou
+        $ sudo pacman -Sy (arch linux based)
+        ```
+        - Instalando o pip (se não estiver instalado):
+        ```bash
+        $ sudo apt install python3-pip (debian based)
+        ou
+        $ sudo pacman -S python-pip (arch linux based)
+        ```
+        - Talvez seja necessário instalar também o pacote *python3-venv* :
+        ```bash
+        $ sudo apt install python3-venv
+        ```
+        - Criando o virtual env
+        ```bash
+        $ sudo apt install graphviz
+        ```
+        - Instalando o virtual env:
+        ```bash
+        $ sudo pip3 install virtualenv
+        ```
+        - Criando o virtual env
+        ```bash
+        $ python3 -m venv ./env
+        ```
+        - Ativando o virtual env:
+        ```bash
+        $ source ./env/bin/activate 
+        ou
+        $ . ./env/bin/activate
+        ```
+        - Instalando o Lark
+        ```bash
+        pip install lark-parser
+        ```
+        - Instalando o argparse
+        ```bash
+        pip install argparse
+        ```
+        - Instalando o pydot
+        ```bash
+        pip install pydot
+        ```
+        
+    - Se já exitir virtual env (diretório *source/env* ), dentro do doretório *source*, execute o seguinte comando:
+        - Ativando o virtual env:
+        ```bash
+        $ source ./env/bin/activate 
+        ou
+        $ . ./env/bin/activate
+        ```
+    - E, finalmente, execute o build.py:
+        ```bash
+        $ python3 ./build.py
+        ou 
+        $ python ./build.py
+        ```
+    **OBS:** Para desativar o virtual env:
+    ```bash
+    $ deactivate
+    ```
     
 ### Informações adicionais
 Todo o código fonte está hospedado no [GitHub](https://github.com/cardepaula/trabalho-final-lfa-DMH).
