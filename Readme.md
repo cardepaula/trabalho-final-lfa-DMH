@@ -27,75 +27,75 @@ Além dessas features existem muitas outras, porém o importante a ressaltar é 
 As regras de produção da gramática da DSL está escrita no formato *EBNF* e é definida da seguinte maneira:
 
 ```html
-start: expr ";" (expr ";")*
+start = expr ";" (expr ";")*
 
-expr: assignment
-    | ifexpr
-    | whileexpr
-    | funct
-    | aexpr
-    | print
+expr =  assignment
+     | ifexpr
+     | whileexpr
+     | funct
+     | aexpr
+     | print
 
-assignment: "var" NAME "=" aexpr
-          | NAME "=" aexpr
+assignment = "var" NAME "=" aexpr
+           | NAME "=" aexpr
 
-ifexpr: "if" comp "do" block ["else" "do" block]
+ifexpr = "if" comp "do" block ["else" "do" block]
 
-whileexpr: "while" comp "do" block
+whileexpr = "while" comp "do" block
 
-block: "{" start "}"
+block = "{" start "}"
 
-funct: "defun" NAME "(" ")" "do" functblock
+funct = "defun" NAME "(" ")" "do" functblock
 
-functblock: "{" start* functreturn "}"
+functblock = "{" start* functreturn "}"
 
-functreturn: "returns" aexpr ";"
+functreturn = "returns" aexpr ";"
 
-functcall: NAME "(" ")"
+functcall = NAME "(" ")"
 
-print: "show" "(" aexpr ")"
+print = "show" "(" aexpr ")"
 
-comp: aexpr OP_COMP aexpr
-    | "(" aexpr OP_COMP aexpr ")"
+comp = aexpr OP_COMP aexpr
+     | "(" aexpr OP_COMP aexpr ")"
 
-aexpr: term
-     | aexpr OP_TERM term
+aexpr = term
+      | aexpr OP_TERM term
 
-term: factor
-    | term OP_FACTOR factor
+term = factor
+     | term OP_FACTOR factor
 
-factor: trig
-      | factor OP_POW trig
+factor = trig
+       | factor OP_POW trig
 
-trig: base
-    | TRIG base
+trig = base
+     | TRIG base
 
-base: leftoperation
-    | number 
-    | getvar
-    | functcall
-    | TRIG base
-    | "(" aexpr ")"
+base = leftoperation
+     | number 
+     | getvar
+     | functcall
+     | TRIG base
+     | "(" aexpr ")"
 
-leftoperation: OP_LEFT base
+leftoperation = OP_LEFT base
 
-number: NUMBER
+number = NUMBER
 
-getvar: NAME
+getvar = NAME
 
-OP_TERM: "+" | "-"
-OP_FACTOR: "//" | "*" | "/" | "%"
-OP_POW: "^"
-OP_LEFT: "+" | "-"
-OP_COMP: "==" | "!=" | ">=" | "<=" | ">" | "<"
-TRIG: "sen" | "cos" | "tang" | "arcsen" | "arccos" | "arctang"
-COMMENT: /(\#\#.+\#\#)/
-LCASE_LETTER: "a".."z"
-UCASE_LETTER: "A".."Z"
-LETTER: UCASE_LETTER | LCASE_LETTER
-NAME: ("_"|LETTER) ("_"|LETTER|DIGIT)*
-NUMBER: /-?\d+(\.\d+)?([eE][+-]?\d+)?/
-           
+OP_TERM = "+" | "-"
+OP_FACTOR = "//" | "*" | "/" | "%"
+OP_POW = "^"
+OP_LEFT = "+" | "-"
+OP_COMP = "==" | "!=" | ">=" | "<=" | ">" | "<"
+TRIG = "sen" | "cos" | "tang" | "arcsen" | "arccos" | "arctang"
+COMMENT = /(\#\#.+\#\#)/
+LCASE_LETTER = "a".."z"
+UCASE_LETTER = "A".."Z"
+LETTER = UCASE_LETTER | LCASE_LETTER
+NAME = ("_"|LETTER) ("_"|LETTER|DIGIT)*
+NUMBER = /-?\d+(\.\d+)?([eE][+-]?\d+)?/
+    
 ```
 
 ### Descrição geral
