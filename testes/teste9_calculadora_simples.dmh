@@ -1,0 +1,43 @@
+## Função que atua como uma calculadora simples baseado no número passado ##
+## Símbolos relacionados ao operador: ##
+## 1 = + ##
+## 2 = - ##
+## 3 = * ##
+## 4 = / ##
+defun calcular() do {
+    var resultado = 0;
+    
+    if (operador == 1) do {
+        resultado = left_num + right_num;
+    }
+    else do {
+        if (operador == 2) do {
+            resultado = left_num - right_num;
+        }
+        else do {
+            if (operador == 3) do {
+                resultado = left_num * right_num;
+            }
+            else do {
+                if (operador == 4) do {
+                    resultado = left_num / right_num;
+                }
+                else do {
+                    ## resultado -1 quer dizer que não foi colocado nenhum dos operadores ##
+                    resultado = -1;
+                };
+            };
+        };
+    };
+
+    returns resultado;
+};
+
+## Definição de variáveis de escopo global ##
+var operador = 1;
+var left_num = 8^-2 + 2E1 * 2e-1 + 3e+3 / 2.012;
+var right_num = 0.02e2 + 0.02e-2;
+
+## Chamando a função da calculadora simples ##
+var valor_calculo = calcular();
+show(valor_calculo);

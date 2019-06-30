@@ -1,0 +1,29 @@
+## Função que calcula as raízes de uma equação do segundo grau ##
+defun raizes_segundo_grau() do {
+    var delta = ((b^2) - (4 * a * c));
+    ## show(delta); ##
+
+    if (delta >= 0) do {
+        x1 = (-b + delta^0.5) / 2 * a;
+        x2 = (-b - delta^0.5) / 2 * a;
+    }
+    else do {
+        ## Caso x1 e x2 sejam -1 é porque não pode ser calculado suas raízes ##
+        x1 = -1;
+        x2 = -1;
+    };
+
+    returns 0;
+};
+
+## Variáveis de escopo global, representados pelos termos a, b e c da equação de 2º grau ##
+var a = 1;
+var b = 8;
+var c = 16;
+var x1 = -1;
+var x2 = -1;
+
+## Mostra sequencialmente os valores de x1 e x2 ##
+raizes_segundo_grau();
+show(x1);
+show(x2);
