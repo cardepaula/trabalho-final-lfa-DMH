@@ -1,15 +1,20 @@
-# LFA-MEL-parser com a biblioteca Lark
-Implementação de um parser descendente recursivo para uma Linguagem Livre de Contexto, chamada de MEL utilizando a ferramenta voltada para o parse de qualquer gramática livre de contexto chamada [**Lark**](https://lark-parser.readthedocs.io/en/latest/).
+# Trabalho Final de LFA 2019/1 - Implementação de uma Linguagem de Domínio Específico (DSL)
+
+Implementação de uma Linguagem de Domínio Específico (DSL), chamada ***DMH***, utilizando a ferramenta voltada para o parse de qualquer gramática livre de contexto chamada [**Lark**](https://lark-parser.readthedocs.io/en/latest/).
+
+O trabalho em questão foi passado na disciplina de *LFA (Linguagens Formais e Automatos)*, do curso de graduação de Bacharelado de Sistema de Informação do IFES - Serra, pelo docente Dr. Jefferson Oliveira Andrade.
+
+A liguagem ***DMH***, nome proveniente das inicias dos nomes dos autores, é voltada exclusivamente no desenvolvimento de aplicações para cálculos matemáticos aritméticos e trigonométricos. Podendo utilizar mecanismos de construção sintática para seleção (*if:else*) e repetição (*while*), além de mecanismos de nomeação (manipulação de variáveis) e abstração (funções), muito comumente utlizados nas linguagens de programação.
 
 ### Informações gerais
-- **Autor**: Harã Heique dos Santos
-- **Linguagem de programação**: Python (versão 3.6.7)
+- **Autores**: Douglas Bolis Lima, Harã Heique dos Santos, Marcos Antonio Carneiro de Paula
+- **Linguagem de programação**: Python (versão 3.6.8+)
 - **Ferramentas de suporte**: Lark Library (versão 0.7.1)
-- **Ambiente de desenvolvimento**: Visual Studio Code (versão 1.33.1)
+- **Ambiente de desenvolvimento**: Visual Studio Code (versão 1.35.1) e PyCharm Community (versão 2018.3)
 
 ### Lark
 Lark é uma biblioteca do python capaz realizar o parse de qualquer linguagem livre de contexto, sendo ela de fácil entendimento podendo ser utilizada desde iniciantes até experts do assunto. Dentre suas features estão:
-- Linguagem de gramática avançada, baseado em ***EBNF***;
+- Linguagem de gramática avançada, baseado em [***EBNF***](https://en.wikipedia.org/wiki/Extended_Backus%E2%80%93Naur_form);
 - Criação automática da árvore, inferida pela gramática fornecida;
 - Realiza o handle de ambiguidades no parse da gramática;
 - Roda em qualquer interpretador python, dado que ela é feita puramente em python;
@@ -19,94 +24,114 @@ Além dessas features existem muitas outras, porém o importante a ressaltar é 
 - [Github](https://github.com/lark-parser/lark)
 
 ### Gramática
-As regras de produção da gramática da linguagem livre de contexto(MEL) é definida da seguinte maneira:
+As regras de produção da gramática da DSL é definida da seguinte maneira:
 
 ```html
-<expr>   ::= <term> ((‘+’ | ‘-’) <term>)*
-<term>   ::= <factor> ((‘*’ | ‘/’ | ‘//’ | ‘%’) <factor>)*
-<factor> ::= <base> (‘^’ <factor>)?
-<base>   ::= (‘+’ | ‘-’) <base>
-           | <number>
-           | ‘(’ <expr> ‘)’
-<number> ::= <digit>+ ‘.’? <digit>* ((‘E’ | ‘e’) (‘+’ | ‘-’)? <digit>+)?
-<digit>  ::= ‘0’ | ‘1’ | ‘2’ | ‘3’ | ‘4’ | ‘5’ | ‘6’ | ‘7’ | ‘8’ | ‘9’
+start: expr ";" (expr ";")*
+
+expr: assignment
+    | ifexpr
+    | whileexpr
+    | funct
+    | aexpr
+    | print
+
+assignment: "var" NAME "=" aexpr -> assign_var
+          | NAME "=" aexpr -> reassign_var
+
+ifexpr: "if" comp "do" block ["else" "do" block] -> if_expr
+
+whileexpr: "while" comp "do" block -> while_expr
+
+block: "{" start "}"
+
+funct: "defun" NAME "(" ")" "do" functblock -> def_function
+
+functblock: "{" start* functreturn "}"
+
+functreturn: "returns" aexpr ";"
+
+functcall: NAME "(" ")"
+
+print: "show" "(" aexpr ")" -> print_screen
+
+comp: aexpr OP_COMP aexpr -> comp_operation
+    | "(" aexpr OP_COMP aexpr ")" -> comp_operation
+
+aexpr: term
+     | aexpr OP_TERM term
+
+term: factor
+    | term OP_FACTOR factor
+
+factor: trig
+      | factor OP_POW trig
+
+trig: base
+    | TRIG base
+
+base: leftoperation
+    | number 
+    | getvar
+    | functcall
+    | TRIG base
+    | "(" aexpr ")"
+
+leftoperation: OP_LEFT base
+
+number: NUMBER
+
+getvar: NAME
+
+OP_TERM: "+" | "-"
+OP_FACTOR: "//" | "*" | "/" | "%"
+OP_POW: "^"
+OP_LEFT: "+" | "-"
+OP_COMP: "==" | "!=" | ">=" | "<=" | ">" | "<"
+TRIG: "sen" | "cos" | "tang" | "arcsen" | "arccos" | "arctang"
+COMMENT: /(\#\#.+\#\#)/
+LCASE_LETTER: "a".."z"
+UCASE_LETTER: "A".."Z"
+LETTER: UCASE_LETTER | LCASE_LETTER
+NAME: ("_"|LETTER) ("_"|LETTER|DIGIT)*
+NUMBER: /-?\d+(\.\d+)?([eE][+-]?\d+)?/
+           
 ```
 
 ### Descrição geral do código fonte
 O código fonte está estruturado da seguinte maneira:
 
 ```
-source
+trabalho-final-lfa-DHM
+|_ README.md
+|_ relatório.pdf
+|_ ast_outfiles
+  |_ *imagens_ast*.png
+|_ source
+  |_ grammar
+    |_ grammar.lark
   |_ models
-    |_ LarkParserMEL.py
+    |_ DMHEvaluateTree.py
+    |_ DHMParser.py
   |_ build.py
-  |_ trab2.sh
+  |_ trabFinal.sh
+|_ testes
+  |_ *arquivos para testes*.dmh
 ```
+## Descrição geral dos arquivos
 
-##### LarkParserMEL.py
-É o módulo que contém uma classe única chamada `LarkParserMEL`, o qual representa o parser em si que é responsável por manipular as expressões matemáticas da gramática MEL.
+Descrição geral dos arquivos contidos nessa aplicação:
 
-```python
-from lark import Lark
+Arquivo|Path|Descrição
+---|---|---
+**grammar.lark**|source/grammar/grammar.lark|Arquivo contendo a gramática em *EBNF* da linguagem.
+**DMHParser.py**|source/models/DMHParser.py|Classe responsável por realizar o parser tree(AST) da expressão/código passada como entrada seguindo as regras definidas pela gramática da linguagem DMH.
+**DMHEvaluateTree.py**|source/models/DMHEvaluateTree.py|Classe responsável por realizar o *evaluation* da árvore (AST) da expressão/código.
+**build.py**|source/build.py|É o módulo que é buildado e que contém a execução principal do programa. É nele que são instanciados os objetos da classes que manipulam as expressões provenientes tanto de arquivos do formato .dmh quanto do console interativo com o usuário, o quais ambos são possibilidades que o usuário possui ao utilizar a aplicação.
+**arquivos de testes.dmh**|testes/*arquivos de testes.dmh*|Diretório que contém os arquivos na extensão *.dmh* contendo o código que segue a gramática da linguagem estabelecida, com proposito de serem utilizados para testar a linguagem.
+**imagens_ast.png**|ast_outifiles/*imagens_ast.png*|Diretório onde são salvos as imagens dos diagramas que representam as árvores dos *arquivos.dmh*. 
 
-# Constante do módulo definindo a gramática a ser utilizada utilizando a sintaxe Lark + EBNF
-_MELGRAMMAR: str = """
-    expr: term (("+" | "-") term)*
-    term: factor (("*" | "/" | "//" | "%") factor)*
-    factor: base ("^" factor)?
-    base: ("+" | "-") base | NUMBER | "(" expr ")"
-
-    %import common.SIGNED_NUMBER -> NUMBER
-    %import common.WS_INLINE
-    %ignore WS_INLINE
-"""
-
-class LarkParserMEL:
-    def __init__(self):
-        self._inputExpr: str = ""
-        self._parser: Lark = Lark(_MELGRAMMAR, start='expr')
-
-    @property
-    def expression(self) -> str:
-        return self._inputExpr
-
-    def checkExpression(self, inputExpr: str) -> bool:
-        '''Checa se a expressão de entrada é válida de acordo com a gramática MEL definida'''
-        
-        self._inputExpr = inputExpr
-
-        # Usa a instancia do parser e cria a sua árvore parser de execução
-        isValidExpr: bool = True
-        try:
-            self._parser.parse(inputExpr)
-        except Exception:
-            isValidExpr = False
-        finally:
-            return isValidExpr
-```
-O trecho código acima representa cerca de 90% do código do módulo, onde quando um objeto `LarkParserMEL` é instanciado também é instanciado um objeto da classe `Lark` proveniente da biblioteca importada. No construtor dessa classe é passada a gramática definida com suas regras de produção além de qual é sua regra/não-terminal inicial. Com isso é possível chamar o método `parse(expression)` capaz de criar uma tree parse caso a expressão passada como argumento seja válida, onde é utilizada na chamada do método `checkExpression`.
-
-##### build.py
-É o módulo que é buildado e que contém a execução principal do programa. Nele é utilizada a instancia do objeto da classe `LarkParserMEL`. Basicamente o usuário fornece a expressão matemática desejada e o programa retorna se a expressão digitada é válida ou inválida.
-
-```python
-from models.LarkParserMEL import LarkParserMEL
-
-def main():
-    parserMEL: LarkParserMEL = LarkParserMEL()
-
-    while True:
-        inputExpression: str = input("\nEnter your math expression: ")
-        isValidExpr: bool = parserMEL.checkExpression(inputExpression)
-        strIsValidExpr: str = "valid" if isValidExpr else "invalid"
-        
-        print("Expression {0} is {1}.".format(inputExpression, strIsValidExpr))
-
-    return 0
-
-if __name__ == '__main__' :
-    main()
-```
+*OBS:* As imagens contida no diretório *ast_outifiles/* são geradas quando se executa a aplicação passando um *arquivo.dmh* como argumento.  
 
 ### Como executar?
 Para buildar/executar o app no ambiente Linux basta abrir o CLI (Command Line Interface) no diretório __/source__ e digitar o seguinte comando:
