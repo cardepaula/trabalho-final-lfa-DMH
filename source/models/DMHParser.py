@@ -6,7 +6,7 @@
 '''
 
 import sys, os
-from lark import Lark, Tree
+from lark import Lark, Tree, tree
 
 _GRAMMAR_PATH: str = os.path.dirname(os.path.abspath(__file__)) + "/../grammar/"
 _GRAMMAR_FILENAME: str = "grammar.lark"
@@ -61,6 +61,12 @@ class DMHParser:
 
         return self._tree
 
+    def make_ast_image(self, filename):
+        '''Cria uma imagem da AST gerada'''
+        if (self._tree == None) :
+            raise Exception("Parser tree is not exist.")
+        tree.pydot__tree_to_png(self._tree, filename)
+
 
 ################################### TESTANDO A CLASSE DE FORMA UNITÁRIA ###################################
 def main():
@@ -81,7 +87,6 @@ def main():
             print("Invalid Data Input")
         except Exception as err:
             print("{0}\n".format(err))
-
 
 def testExpressions():
     parser: DMHParser = DMHParser()

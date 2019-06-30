@@ -3,6 +3,7 @@ from models.DMHParser import DMHParser
 from models.DMHEvaluateTree import DMHEvaluateTree
 
 _TESTING_FILES_PATH: str = os.path.dirname(os.path.abspath(__file__)) + "/../testes/"
+_AST_IMAGE_FILES_PATH: str = os.path.dirname(os.path.abspath(__file__)) + "/../ast_outfiles/"
 
 def main():
     parser: DMHParser = DMHParser()
@@ -27,6 +28,8 @@ def main():
                 valueteTreeContext.tree = tree
                 print("Execution output:\n")
                 valueteTreeContext.evaluate()
+
+                parser.make_ast_image(_AST_IMAGE_FILES_PATH + args.file)
 
         except FileNotFoundError as err:
             print(err)

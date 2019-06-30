@@ -41,9 +41,6 @@ defun calculaSalarioLiquido() do {
     var sal_bruto = calculaSalarioBruto();
     var inss = calculaINSS();
     var imp_renda = calculaIR();
-    show(sal_bruto);
-    show(inss);
-    show(imp_renda);
 
     returns sal_bruto - inss - imp_renda;
 };
