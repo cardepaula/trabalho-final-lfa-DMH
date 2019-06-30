@@ -24,7 +24,7 @@ Além dessas features existem muitas outras, porém o importante a ressaltar é 
 - [Github](https://github.com/lark-parser/lark)
 
 ### Gramática
-As regras de produção da gramática da DSL é definida da seguinte maneira:
+As regras de produção da gramática da DSL está escrita no formato *EBNF* e é definida da seguinte maneira:
 
 ```html
 start: expr ";" (expr ";")*
@@ -36,16 +36,16 @@ expr: assignment
     | aexpr
     | print
 
-assignment: "var" NAME "=" aexpr -> assign_var
-          | NAME "=" aexpr -> reassign_var
+assignment: "var" NAME "=" aexpr
+          | NAME "=" aexpr
 
-ifexpr: "if" comp "do" block ["else" "do" block] -> if_expr
+ifexpr: "if" comp "do" block ["else" "do" block]
 
-whileexpr: "while" comp "do" block -> while_expr
+whileexpr: "while" comp "do" block
 
 block: "{" start "}"
 
-funct: "defun" NAME "(" ")" "do" functblock -> def_function
+funct: "defun" NAME "(" ")" "do" functblock
 
 functblock: "{" start* functreturn "}"
 
@@ -53,10 +53,10 @@ functreturn: "returns" aexpr ";"
 
 functcall: NAME "(" ")"
 
-print: "show" "(" aexpr ")" -> print_screen
+print: "show" "(" aexpr ")"
 
-comp: aexpr OP_COMP aexpr -> comp_operation
-    | "(" aexpr OP_COMP aexpr ")" -> comp_operation
+comp: aexpr OP_COMP aexpr
+    | "(" aexpr OP_COMP aexpr ")"
 
 aexpr: term
      | aexpr OP_TERM term
@@ -98,12 +98,12 @@ NUMBER: /-?\d+(\.\d+)?([eE][+-]?\d+)?/
            
 ```
 
-### Descrição geral do código fonte
+### Descrição geral
 O código fonte está estruturado da seguinte maneira:
 
 ```
 trabalho-final-lfa-DHM
-|_ README.md
+|_ Readme.md
 |_ relatório.pdf
 |_ ast_outfiles
   |_ *imagens_ast*.png
@@ -118,31 +118,100 @@ trabalho-final-lfa-DHM
 |_ testes
   |_ *arquivos para testes*.dmh
 ```
-## Descrição geral dos arquivos
+#### Descrição geral dos arquivos
 
-Descrição geral dos arquivos contidos nessa aplicação:
+Descrição geral dos arquivos contidos nesta aplicação:
 
 Arquivo|Path|Descrição
 ---|---|---
 **grammar.lark**|source/grammar/grammar.lark|Arquivo contendo a gramática em *EBNF* da linguagem.
-**DMHParser.py**|source/models/DMHParser.py|Classe responsável por realizar o parser tree(AST) da expressão/código passada como entrada seguindo as regras definidas pela gramática da linguagem DMH.
+**DMHParser.py**|source/models/DMHParser.py|Classe responsável por realizar o parser tree (AST) da expressão/código passada como entrada seguindo as regras definidas pela gramática da linguagem DMH.
 **DMHEvaluateTree.py**|source/models/DMHEvaluateTree.py|Classe responsável por realizar o *evaluation* da árvore (AST) da expressão/código.
 **build.py**|source/build.py|É o módulo que é buildado e que contém a execução principal do programa. É nele que são instanciados os objetos da classes que manipulam as expressões provenientes tanto de arquivos do formato .dmh quanto do console interativo com o usuário, o quais ambos são possibilidades que o usuário possui ao utilizar a aplicação.
 **arquivos de testes.dmh**|testes/*arquivos de testes.dmh*|Diretório que contém os arquivos na extensão *.dmh* contendo o código que segue a gramática da linguagem estabelecida, com proposito de serem utilizados para testar a linguagem.
 **imagens_ast.png**|ast_outifiles/*imagens_ast.png*|Diretório onde são salvos as imagens dos diagramas que representam as árvores dos *arquivos.dmh*. 
 
-*OBS:* As imagens contida no diretório *ast_outifiles/* são geradas quando se executa a aplicação passando um *arquivo.dmh* como argumento.  
+**OBS:** As imagens contida no diretório *ast_outifiles/* são geradas quando se executa a aplicação passando um *arquivo.dmh* como argumento.  
 
 ### Como executar?
-Para buildar/executar o app no ambiente Linux basta abrir o CLI (Command Line Interface) no diretório __/source__ e digitar o seguinte comando:
+Para executar o programa existe duas formas:
+
+- **Executar o *source/trabalhoFinal.sh*:** 
+
+    - Execução do script:
+    ```bash
+    $ sh ./source/trabalhoFinal.sh
+    ou entre no diretório source/ e digite:
+    $ sh trabalhoFinal.sh
+    ```
+- O script verifica se existe [virtual env](https://pythonacademy.com.br/blog/python-e-virtualenv-como-programar-em-ambientes-virtuais), se não existir ele tenta criar um, e executa o *build.py*;
+- **Executar manualmente:**
+    - Se existir não virtual env (diretório *source/env* ) execute os comandos (de preferencia no diretório *source/* ):
     
-    sh trab2.sh
-
-Outro comando que também pode ser usado é o seguinte:
-
-    ./trab2.sh
-
-__OBS.:__ *Geralmente a primeira execução do programa demora um pouco mais pois necessita atualizar o gerenciador de pacotes para checar dependências e fazer o download, caso necessário, do pip (gerenciador de pacotes do Python) assim como a biblioteca Lark que necessita do pip para ser instalada.*
+        - Atualizando os repositórios do sistema
+        ```bash
+        $ sudo apt-get update (debian based)
+        ou
+        $ sudo pacman -Sy (arch linux based)
+        ```
+        - Instalando o pip (se não estiver instalado):
+        ```bash
+        $ sudo apt install python3-pip (debian based)
+        ou
+        $ sudo pacman -S python-pip (arch linux based)
+        ```
+        - Talvez seja necessário instalar também o pacote *python3-venv* :
+        ```bash
+        $ sudo apt install python3-venv
+        ```
+        - Criando o virtual env
+        ```bash
+        $ sudo apt install graphviz
+        ```
+        - Instalando o virtual env:
+        ```bash
+        $ sudo pip3 install virtualenv
+        ```
+        - Criando o virtual env
+        ```bash
+        $ python3 -m venv ./env
+        ```
+        - Ativando o virtual env:
+        ```bash
+        $ source ./env/bin/activate 
+        ou
+        $ . ./env/bin/activate
+        ```
+        - Instalando o Lark
+        ```bash
+        pip install lark-parser
+        ```
+        - Instalando o argparse
+        ```bash
+        pip install argparse
+        ```
+        - Instalando o pydot
+        ```bash
+        pip install pydot
+        ```
+        
+    - Se já exitir virtual env (diretório *source/env* ), dentro do doretório *source*, execute o seguinte comando:
+        - Ativando o virtual env:
+        ```bash
+        $ source ./env/bin/activate 
+        ou
+        $ . ./env/bin/activate
+        ```
+    - E, finalmente, execute o build.py:
+        ```bash
+        $ python3 ./build.py --file nome_arquivo.dmh
+        ou 
+        $ python ./build.py --file nome_arquivo.dmh
+        ```
+    **OBS:** Para desativar o virtual env:
+    ```bash
+    $ deactivate
+    ```
     
 ### Informações adicionais
 Todo o código fonte está hospedado no [GitHub](https://github.com/cardepaula/trabalho-final-lfa-DMH).

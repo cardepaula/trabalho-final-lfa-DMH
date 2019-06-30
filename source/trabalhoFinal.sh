@@ -12,46 +12,41 @@ else
 		then
 		exit
 	else
-		echo "_________Updating repositories_________"
-		sudo apt-get update || sudo pacman -Sy
-
-		echo "_________Installing pip_________"
+		echo "\n_________Installing pip_________\n"
 		sudo apt install python3-pip python3-venv || sudo pacman -S python-pip
 
-		echo "_________Installing graphviz_________"
+		echo "\n_________Installing graphviz_________\n"
 		sudo apt install graphviz || sudo pacman -S graphviz
 
-		echo "_________Installing virtual env_________"
+		echo "\n_________Installing virtual env_________\n"
 		if sudo pip3 install virtualenv
 		then
-			echo "_________Creating virtual env_________"
-			python3 -p python3 -m venv "$DIR_RELATIVO/env"
+			echo "\n_________Creating virtual env_________\n"
+			python3 -m venv "$DIR_RELATIVO/env"
 
-			echo "_________Enabling virtual env_________"
+			echo "\n_________Enabling virtual env_________\n"
 			if source "$DIR_RELATIVO/env/bin/activate" || . "$DIR_RELATIVO/env/bin/activate"
 			then
-				echo "_________Installing Lark_________"
-				echo "\n"
+				echo "\n_________Installing Lark_________\n"
 				pip install lark-parser
-				echo "_________Installing Argparse_________"
-				echo "\n"
+				echo "\n_________Installing Argparse_________\n"
 				pip install argparse
-				echo "_________Installing pydot_________"
+				echo "\n_________Installing pydot_________\n"
 				pip install pydot
 				echo "\n\n\n"
 			else
-				echo "_________Error activating virtual env_________"
+				echo "\n_________Error enabling virtual env_________\n"
 				exit 1
 			fi
 		else
-			echo "_________Error installing virtual env_________"
+			echo "\n_________Error installing virtual env_________\n"
 			exit 1
 		fi
 		clear
 	fi
 fi
 
-echo "Enter the file name to run or press enter to use shell: "
+echo "Enter the file name to run or press enter to use shell:"
 read ARQ
 
 if [ -z $ARQ ]
