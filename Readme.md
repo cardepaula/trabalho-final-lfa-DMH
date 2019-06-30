@@ -27,9 +27,9 @@ Além dessas features existem muitas outras, porém o importante a ressaltar é 
 As regras de produção da gramática da DSL está escrita no formato *EBNF* e é definida da seguinte maneira:
 
 ```html
-start = expr ";" (expr ";")*
+start = (expr ";")+
 
-expr =  assignment
+expr = assignment
      | ifexpr
      | whileexpr
      | funct
@@ -90,10 +90,7 @@ OP_LEFT = "+" | "-"
 OP_COMP = "==" | "!=" | ">=" | "<=" | ">" | "<"
 TRIG = "sen" | "cos" | "tang" | "arcsen" | "arccos" | "arctang"
 COMMENT = /(\#\#.+\#\#)/
-LCASE_LETTER = "a".."z"
-UCASE_LETTER = "A".."Z"
-LETTER = UCASE_LETTER | LCASE_LETTER
-NAME = ("_"|LETTER) ("_"|LETTER|DIGIT)*
+NAME = /[_a-zA-Z][_a-zA-Z0-9]*/
 NUMBER = /-?\d+(\.\d+)?([eE][+-]?\d+)?/
     
 ```
