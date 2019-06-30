@@ -103,7 +103,7 @@ O código fonte está estruturado da seguinte maneira:
 
 ```
 trabalho-final-lfa-DHM
-|_ README.md
+|_ Readme.md
 |_ relatório.pdf
 |_ ast_outfiles
   |_ *imagens_ast*.png
@@ -125,7 +125,7 @@ Descrição geral dos arquivos contidos nesta aplicação:
 Arquivo|Path|Descrição
 ---|---|---
 **grammar.lark**|source/grammar/grammar.lark|Arquivo contendo a gramática em *EBNF* da linguagem.
-**DMHParser.py**|source/models/DMHParser.py|Classe responsável por realizar o parser tree(AST) da expressão/código passada como entrada seguindo as regras definidas pela gramática da linguagem DMH.
+**DMHParser.py**|source/models/DMHParser.py|Classe responsável por realizar o parser tree (AST) da expressão/código passada como entrada seguindo as regras definidas pela gramática da linguagem DMH.
 **DMHEvaluateTree.py**|source/models/DMHEvaluateTree.py|Classe responsável por realizar o *evaluation* da árvore (AST) da expressão/código.
 **build.py**|source/build.py|É o módulo que é buildado e que contém a execução principal do programa. É nele que são instanciados os objetos da classes que manipulam as expressões provenientes tanto de arquivos do formato .dmh quanto do console interativo com o usuário, o quais ambos são possibilidades que o usuário possui ao utilizar a aplicação.
 **arquivos de testes.dmh**|testes/*arquivos de testes.dmh*|Diretório que contém os arquivos na extensão *.dmh* contendo o código que segue a gramática da linguagem estabelecida, com proposito de serem utilizados para testar a linguagem.
@@ -201,9 +201,9 @@ Para executar o programa existe duas formas:
         ```
     - E, finalmente, execute o build.py:
         ```bash
-        $ python3 ./build.py
+        $ python3 ./build.py --file nome_arquivo.dmh
         ou 
-        $ python ./build.py
+        $ python ./build.py --file nome_arquivo.dmh
         ```
     **OBS:** Para desativar o virtual env:
     ```bash
