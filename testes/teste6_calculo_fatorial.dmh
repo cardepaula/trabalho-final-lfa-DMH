@@ -3,12 +3,18 @@ defun calculaFatorial() do {
     var limite = n;
     var f = 1;
 
-    if (n==0) do {
-        f = 1;
+    ## Se o numero for menor que zero, a funcao retornará -1, pois nao existe fatorial de numero negativo ##
+    if (n < 0) do {
+        f = -1;
     } else do {
-        while (count <= limite) do {
-            f = f * count;
-            count = count +1;
+        ## Por definicao, fatorial de zero é um. ##
+        if ( n == 0) do {
+            f = 1;
+        } else do {
+            while (count <= limite) do {
+                f = f * count;
+                count = count +1;
+            };
         };
     };
 
@@ -16,7 +22,7 @@ defun calculaFatorial() do {
     returns f;
 };
 
-var n = -10;
+var n = 5;
 var fatorial = calculaFatorial();
 
 show(fatorial);
