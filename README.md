@@ -141,8 +141,6 @@ Para executar o programa existe duas formas:
     - Execução do script:
     ```bash
     $ sh ./source/trabalhoFinal.sh
-    ou entre no diretório source/ e digite:
-    $ sh trabalhoFinal.sh
     ```
 - O script verifica se existe [virtual env](https://pythonacademy.com.br/blog/python-e-virtualenv-como-programar-em-ambientes-virtuais), se não existir ele tenta criar um, e executa o *build.py*;
 - **Executar manualmente:**
