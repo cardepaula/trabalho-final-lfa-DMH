@@ -96,7 +96,7 @@ NUMBER = /-?\d+(\.\d+)?([eE][+-]?\d+)?/
 ```
 
 ### Descrição geral
-O código fonte está estruturado da seguinte maneira:
+A estrutura da aplicação está definida da seguinte maneira:
 
 ```
 trabalho-final-lfa-DHM
@@ -104,6 +104,10 @@ trabalho-final-lfa-DHM
 |_ relatório.pdf
 |_ ast_outfiles
   |_ *imagens_ast*.png
+|_ documentation
+  |_ images
+    |_ *arquivos de imagens em geral*
+  |_ *arquivos em geral exceto imagens*
 |_ source
   |_ grammar
     |_ grammar.lark
@@ -127,6 +131,7 @@ Arquivo|Path|Descrição
 **build.py**|source/build.py|É o módulo que é buildado e que contém a execução principal do programa. É nele que são instanciados os objetos da classes que manipulam as expressões provenientes tanto de arquivos do formato .dmh quanto do console interativo com o usuário, o quais ambos são possibilidades que o usuário possui ao utilizar a aplicação.
 **arquivos de testes.dmh**|testes/*arquivos de testes.dmh*|Diretório que contém os arquivos na extensão *.dmh* contendo o código que segue a gramática da linguagem estabelecida, com proposito de serem utilizados para testar a linguagem.
 **imagens_ast.png**|ast_outifiles/*imagens_ast.png*|Diretório onde são salvos as imagens dos diagramas que representam as árvores dos *arquivos.dmh*. 
+**arquivos em geral**|documentation/*|Diretório que contém os arquivos tanto de imagens quanto em geral referentes a documentação e produção do relatório(**relatório.pdf**).
 
 **OBS:** As imagens contida no diretório *ast_outifiles/* são geradas quando se executa a aplicação passando um *arquivo.dmh* como argumento.  
 
