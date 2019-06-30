@@ -24,7 +24,7 @@ Além dessas features existem muitas outras, porém o importante a ressaltar é 
 - [Github](https://github.com/lark-parser/lark)
 
 ### Gramática
-As regras de produção da gramática da DSL é definida da seguinte maneira:
+As regras de produção da gramática da DSL está escrita no formato *EBNF* e é definida da seguinte maneira:
 
 ```html
 start: expr ";" (expr ";")*
