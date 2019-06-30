@@ -36,16 +36,16 @@ expr: assignment
     | aexpr
     | print
 
-assignment: "var" NAME "=" aexpr -> assign_var
-          | NAME "=" aexpr -> reassign_var
+assignment: "var" NAME "=" aexpr
+          | NAME "=" aexpr
 
-ifexpr: "if" comp "do" block ["else" "do" block] -> if_expr
+ifexpr: "if" comp "do" block ["else" "do" block]
 
-whileexpr: "while" comp "do" block -> while_expr
+whileexpr: "while" comp "do" block
 
 block: "{" start "}"
 
-funct: "defun" NAME "(" ")" "do" functblock -> def_function
+funct: "defun" NAME "(" ")" "do" functblock
 
 functblock: "{" start* functreturn "}"
 
@@ -53,10 +53,10 @@ functreturn: "returns" aexpr ";"
 
 functcall: NAME "(" ")"
 
-print: "show" "(" aexpr ")" -> print_screen
+print: "show" "(" aexpr ")"
 
-comp: aexpr OP_COMP aexpr -> comp_operation
-    | "(" aexpr OP_COMP aexpr ")" -> comp_operation
+comp: aexpr OP_COMP aexpr
+    | "(" aexpr OP_COMP aexpr ")"
 
 aexpr: term
      | aexpr OP_TERM term
