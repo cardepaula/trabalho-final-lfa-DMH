@@ -65,7 +65,7 @@ class DMHParser:
         '''Cria uma imagem da AST gerada'''
         if (self._tree == None) :
             raise Exception("Parser tree is not exist.")
-        tree.pydot__tree_to_png(self._tree, filename)
+        tree.pydot__tree_to_png(self._tree, filename+".png")
 
 
 ################################### TESTANDO A CLASSE DE FORMA UNITÁRIA ###################################
