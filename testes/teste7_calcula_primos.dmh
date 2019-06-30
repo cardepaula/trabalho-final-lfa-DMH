@@ -1,0 +1,51 @@
+
+## Funcao que verifica se o numero é par ou não ##
+## Retorna 1(um) se for par e 0(zero) se for impar ##
+defun verificaPar() do {
+    var e_par = 0;
+    var result = n%2;
+
+    if (result == 0) do {
+        e_par = 1;
+    };
+
+    returns e_par;
+};
+
+## Funcao que verifica se o numero é primo ou não ##
+## Retorna 1(um) se for primo e 0(zero) se nao for primo ##
+defun verificaNumPrimo() do {
+    var e_primo = 0;
+    verificaPar();
+
+    var i = 3;
+    var limite = n/2;
+    var divisores = 0;
+    var resto = 0;
+
+    if ( n > 1 ) do {
+        if ( n == 2 ) do {
+            e_primo = 1;
+        }else do{
+            if (e_par == 0) do {
+                while ( i < limite) do {
+                    resto = n%i;
+
+                    if (resto == 0) do {
+                        divisores = divisores + 1;
+                    };
+                    i = i + 1;
+                };
+                if (divisores == 0) do {
+                    e_primo = 1;
+                };
+            };
+        };
+    };
+
+    returns e_primo;
+};
+
+var n = 977;
+var primo = verificaNumPrimo();
+show(primo);
