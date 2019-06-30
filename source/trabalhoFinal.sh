@@ -12,39 +12,34 @@ else
 		then
 		exit
 	else
-		echo "_________Atualizando os repositorios_________"
-		sudo apt-get update || sudo pacman -Sy
-
-		echo "_________Instalando o pip_________"
+		echo "\n_________Instalando o pip_________\n"
 		sudo apt install python3-pip python3-venv || sudo pacman -S python-pip
 
-		echo "_________Instalando o graphviz_________"
+		echo "\n_________Instalando o graphviz_________\n"
 		sudo apt install graphviz || sudo pacman -S graphviz
 
-		echo "_________Instalando o virtual env_________"
+		echo "\n_________Instalando o virtual env_________\n"
 		if sudo pip3 install virtualenv
 		then
-			echo "_________Criando o virtual env_________"
-			python3 -p python3 -m venv "$DIR_RELATIVO/env"
+			echo "\n_________Criando o virtual env_________\n"
+			python3 -m venv "$DIR_RELATIVO/env"
 
-			echo "_________Ativando o virtual env_________"
+			echo "\n_________Ativando o virtual env_________\n"
 			if source "$DIR_RELATIVO/env/bin/activate" || . "$DIR_RELATIVO/env/bin/activate"
 			then
-				echo "_________Instalando o Lark_________"
-				echo "\n"
+				echo "\n_________Instalando o Lark_________\n"
 				pip install lark-parser
-				echo "_________Instalando o Argparse_________"
-				echo "\n"
+				echo "\n_________Instalando o Argparse_________\n"
 				pip install argparse
-				echo "_________Instalando o pydot_________"
+				echo "\n_________Instalando o pydot_________\n"
 				pip install pydot
 				echo "\n\n\n"
 			else
-				echo "_________Error ao ativar o virtual env_________"
+				echo "\n_________Error ao ativar o virtual env_________\n"
 				exit 1
 			fi
 		else
-			echo "_________Error ao instalar o virtual env_________"
+			echo "\n_________Error ao instalar o virtual env_________\n"
 			exit 1
 		fi
 		clear
