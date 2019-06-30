@@ -1,7 +1,9 @@
+## Declarando uma função, onde elas nunca possuem argumentos e sempre retornam um valor numérico ##
 defun returnTen() do {
     returns 10;
 };
 
+## Lógica que soma o valor de 10 a variável declarada x ##
 var x = 0;
 show(x);
 

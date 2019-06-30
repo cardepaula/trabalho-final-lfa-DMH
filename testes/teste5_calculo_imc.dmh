@@ -37,8 +37,9 @@ defun calculaIMC() do {
 };
 
 ## Variaveis de scopo global ##
-var peso = 120;
-var altura = 1.60;
+var peso = 51.400;
+var altura = 1.64;
 var classificacao = calculaIMC();
 
+## Printa a classificação baseado no IMC da calculado ##
 show(classificacao);

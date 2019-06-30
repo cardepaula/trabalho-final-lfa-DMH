@@ -1,6 +1,9 @@
+## Declarando variáveis ##
 var count = 0;
 var limite = 5;
 
+## Utilizando estrutura de repetição(while) ##
+## Basicamente o código printa o incremento de count até limite e depois o decremento de count até 0 ##
 while (count <= limite) do {
     show(count);
     count = count + 1;

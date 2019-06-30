@@ -1,3 +1,4 @@
+## Função que calcula o fatorial de n ##
 defun calculaFatorial() do {
     var count = 1;
     var limite = n;
@@ -22,6 +23,7 @@ defun calculaFatorial() do {
     returns f;
 };
 
+## Definição de n, variável de escopo global, e chamada da função que calcula o fatorial de n ##
 var n = 5;
 var fatorial = calculaFatorial();
 

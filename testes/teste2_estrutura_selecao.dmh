@@ -1,7 +1,9 @@
-var a = 2.321;
+## Declarando variáveis ##
+var a = 4.32;
 var b = 3;
 var value = 0;
 
+## Utilizando estrutura de repetição(if..else) ##
 if (a >= b) do {
 	show(a);
     value = sen(60) * 12 - 321 // 213;
@@ -11,5 +13,6 @@ else do {
     value = cos(60) * 12 - 321 // 215;
 };
 
+## Printando value e o arco tangente de value ##
 show(value);
 show(arctang(value));

@@ -61,6 +61,7 @@ OP_LEFT: "+" | "-"
 OP_COMP: "==" | "!=" | ">=" | "<=" | ">" | "<"
 TRIG: "sen" | "cos" | "tang" | "arcsen" | "arccos" | "arctang"
 COMMENT: /(\#\#.+\#\#)/
+
 %import common.CNAME -> NAME
 %import common.SIGNED_NUMBER -> NUMBER
 %import common.WS
