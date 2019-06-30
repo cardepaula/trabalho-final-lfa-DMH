@@ -18,18 +18,23 @@ else
 		echo "_________Instalando o pip_________"
 		sudo apt install python3-pip python3-venv || sudo pacman -S python-pip
 
+		echo "_________Instalando o graphviz_________"
+		sudo apt install graphviz || sudo pacman -S graphviz
+
 		echo "_________Instalando o virtual env_________"
 		if sudo pip3 install virtualenv
 		then
 			echo "_________Criando o virtual env_________"
-			python3 -m venv "$DIR_RELATIVO/env"
+			python3 -p python3 -m venv "$DIR_RELATIVO/env"
 
 			echo "_________Ativando o virtual env_________"
 			if source "$DIR_RELATIVO/env/bin/activate" || . "$DIR_RELATIVO/env/bin/activate"
 			then
 				echo "_________Instalando o Lark_________"
+				echo "\n"
 				pip install lark-parser
 				echo "_________Instalando o Argparse_________"
+				echo "\n"
 				pip install argparse
 				echo "_________Instalando o pydot_________"
 				pip install pydot
@@ -51,8 +56,8 @@ read ARQ
 
 if [ -z $ARQ ]
 then
-	python3 "$DIR_RELATIVO/build.py"
+	python "$DIR_RELATIVO/build.py"
 else
-	python3 "$DIR_RELATIVO/build.py" --file $ARQ
+	python "$DIR_RELATIVO/build.py" --file $ARQ
 fi
 
