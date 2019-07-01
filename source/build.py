@@ -26,7 +26,7 @@ def main():
 
                 tree = parser.parseTree(inputExprFile)
                 valueteTreeContext.tree = tree
-                print("Execution output:\n")
+                print("\nExecution output:\n")
                 valueteTreeContext.evaluate()
 
                 parser.make_ast_image(_AST_IMAGE_FILES_PATH + args.file)

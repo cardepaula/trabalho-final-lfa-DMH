@@ -29,7 +29,7 @@ class DMHEvaluateTree:
     # Início da gramática #
 
     # expr ";" (expr ";")*
-    def __start(self, t: Tree):
+    def __start(self, t: Tree) -> None:
         for child in t.children:
             self.__expr(child)
 
@@ -259,17 +259,17 @@ class DMHEvaluateTree:
         base: float = self.__base(t.children[1])
 
         if op_trig == 'sen':
-            return self.__sen(base)
+            return DMHEvaluateTree.__sen(base)
         elif op_trig == 'cos':
-            return self.__cos(base)
+            return DMHEvaluateTree.__cos(base)
         elif op_trig == 'tang':
-            return self.__tang(base)
+            return DMHEvaluateTree.__tang(base)
         elif op_trig == 'arcsen':
-            return self.__arcsen(base)
+            return DMHEvaluateTree.__arcsen(base)
         elif op_trig == 'arccos':
-            return self.__arccos(base)
+            return DMHEvaluateTree.__arccos(base)
         elif op_trig == 'arctang':
-            return self.__arctang(base)
+            return DMHEvaluateTree.__arctang(base)
         else:
             raise Exception('''Invalid trigonometric operator. 
                             Expect (sen, cos, tang, arcsen, arccos or arctang) given {0}'''.format(op_trig))
@@ -322,7 +322,7 @@ class DMHEvaluateTree:
             return self.__aexpr(first_child)
 
     # (+ | -) <base>
-    def __left_operation(self, t: Tree):
+    def __left_operation(self, t: Tree) -> float:
         op_left: str = t.children[0].value
         base: float = self.__base(t.children[1])
 

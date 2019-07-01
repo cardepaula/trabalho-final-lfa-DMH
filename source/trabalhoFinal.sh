@@ -46,7 +46,7 @@ else
 	fi
 fi
 
-echo "Enter the file name to run or press enter to use shell:"
+echo "Enter the filename.dmh to run or press enter to use shell:"
 read ARQ
 
 if [ -z $ARQ ]

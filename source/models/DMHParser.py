@@ -61,7 +61,7 @@ class DMHParser:
 
         return self._tree
 
-    def make_ast_image(self, filename):
+    def make_ast_image(self, filename) -> None:
         '''Cria uma imagem da AST gerada'''
         if (self._tree == None) :
             raise Exception("Parser tree is not exist.")

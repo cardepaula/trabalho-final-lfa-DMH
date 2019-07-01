@@ -1,0 +1,697 @@
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+      <meta name="generator" content="Railroad Diagram Generator 1.59.1797">
+      <style type="text/css" xml:space="preserve">
+    ::-moz-selection
+    {
+      color: #F0F0FF;
+      background: #00000F;
+    }
+    ::selection
+    {
+      color: #F0F0FF;
+      background: #00000F;
+    }      
+    .ebnf a, .grammar a
+    {
+      text-decoration: none;
+    }
+    .ebnf a:hover, .grammar a:hover
+    {
+      color: #000005;
+      text-decoration: underline;
+    }    
+    .signature
+    {
+      color: #000080;
+      font-size: 11px;
+      text-align: right;
+    }
+    body
+    {
+      font: normal 12px Verdana, sans-serif;
+      color: #00000F;
+      background: #F0F0FF;
+    }
+    a:link, a:visited
+    {
+      color: #00000F;
+    }
+    a:link.signature, a:visited.signature
+    {
+      color: #000080;
+    }
+    a.button, #tabs li a
+    {
+      padding: 0.25em 0.5em;
+      border: 1px solid #000080;
+      background: #C6C6F1;
+      color: #000080;
+      text-decoration: none;
+      font-weight: bold;
+    }
+    a.button:hover, #tabs li a:hover
+    {
+      color: #000005;
+      background: #D1D1FF;
+      border-color: #000005;       
+    }     
+    #tabs
+    {
+      padding: 3px 10px;
+      margin-left: 0;
+      margin-top: 58px;
+      border-bottom: 1px solid #00000F;
+    }  
+    #tabs li
+    {
+      list-style: none;
+      margin-left: 5px;
+      display: inline;
+    }
+    #tabs li a
+    {     
+      border-bottom: 1px solid #00000F;
+    }
+    #tabs li a.active
+    {
+      color: #00000F;
+      background: #F0F0FF;
+      border-color: #00000F;
+      border-bottom: 1px solid #F0F0FF;
+      outline: none;
+    }
+    #divs div
+    {
+      display: none;
+      overflow:auto;
+    }
+    #divs div.active
+    {
+      display: block;
+    }
+    #text
+    {
+      border-color: #000080;
+      background: #FAFAFF;
+      color: #000005;
+    }
+    .small
+    {
+      vertical-align: top;
+      text-align: right;
+      font-size: 9px;
+      font-weight: normal;
+      line-height: 120%;
+    }
+    td.small
+    {
+      padding-top: 0px;
+    }
+    .hidden
+    {
+      visibility: hidden;
+    }
+    td:hover .hidden 
+    {
+      visibility: visible;
+    }
+    div.download
+    {
+      display: none;
+      background: #F0F0FF;
+      position: absolute;
+      right: 34px;
+      top: 94px;
+      padding: 10px;
+      border: 1px dotted #00000F;
+    }
+    #divs div.ebnf, .ebnf code
+    {
+      display: block;
+      padding: 10px;
+      background: #D1D1FF;
+      width: 992px;
+    }
+    #divs div.grammar
+    {
+      display: block;
+      padding-left: 16px;
+      padding-top: 2px;
+      padding-bottom: 2px;
+      background: #D1D1FF;
+    }
+    pre
+    {
+      margin: 0px;
+    }
+    .ebnf div
+    {
+      padding-left: 13ch;
+      text-indent: -13ch;
+    }
+    .ebnf code, .grammar code, textarea, pre
+    {
+      font:12px SFMono-Regular,Consolas,Liberation Mono,Menlo,Courier,monospace;
+    }
+    tr.option-line td:first-child
+    {
+      text-align: right
+    }
+    tr.option-text td
+    {
+      padding-bottom: 10px
+    }
+    table.palette
+    {
+      border-top: 1px solid #000005;
+      border-right: 1px solid #000005;
+      margin-bottom: 4px
+    }
+    td.palette
+    {
+      border-bottom: 1px solid #000005;
+      border-left: 1px solid #000005;
+    }
+    a.palette
+    {
+      padding: 2px 3px 2px 10px;
+      text-decoration: none;
+    }
+    .palette
+    {
+      -webkit-user-select: none;
+      -khtml-user-select: none;
+      -moz-user-select: none;
+      -o-user-select: none;
+      -ms-user-select: none;
+    }
+  </style>
+   </head>
+   <body>
+      
+      <p style="font-size: 14px; font-weight:bold"><a name="start">start:</a></p><img border="0" src="diagram/start.png" height="53" width="191" usemap="#start.map"><map name="start.map"><area shape="rect" coords="49,17,97,49" href="#expr" title="expr"></map><p>
+         
+         <div class="ebnf"><code>
+               
+               <div><a href="#start" title="start" shape="rect">start</a>&nbsp;&nbsp;&nbsp;&nbsp;::= ( <a href="#expr" title="expr" shape="rect">expr</a> ';' )+</div></code></div>
+         </p>
+      
+      <p>referenced by:
+         
+         <ul>
+            
+            <li><a href="#block" title="block">block</a></li>
+            
+            <li><a href="#functblock" title="functblock">functblock</a></li>
+            </ul>
+         </p><br><p style="font-size: 14px; font-weight:bold"><a name="expr">expr:</a></p><img border="0" src="diagram/expr.png" height="257" width="193" usemap="#expr.map"><map name="expr.map"><area shape="rect" coords="49,1,143,33" href="#assignment" title="assignment"><area shape="rect" coords="49,45,105,77" href="#ifexpr" title="ifexpr"><area shape="rect" coords="49,89,129,121" href="#whileexpr" title="whileexpr"><area shape="rect" coords="49,133,99,165" href="#funct" title="funct"><area shape="rect" coords="49,177,105,209" href="#aexpr" title="aexpr"><area shape="rect" coords="49,221,97,253" href="#print" title="print"></map><p>
+         
+         <div class="ebnf"><code>
+               
+               <div><a href="#expr" title="expr" shape="rect">expr</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;::= <a href="#assignment" title="assignment" shape="rect">assignment</a></div>
+               
+               <div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| <a href="#ifexpr" title="ifexpr" shape="rect">ifexpr</a></div>
+               
+               <div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| <a href="#whileexpr" title="whileexpr" shape="rect">whileexpr</a></div>
+               
+               <div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| <a href="#funct" title="funct" shape="rect">funct</a></div>
+               
+               <div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| <a href="#aexpr" title="aexpr" shape="rect">aexpr</a></div>
+               
+               <div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| <a href="#print" title="print" shape="rect">print</a></div></code></div>
+         </p>
+      
+      <p>referenced by:
+         
+         <ul>
+            
+            <li><a href="#start" title="start">start</a></li>
+            </ul>
+         </p><br><p style="font-size: 14px; font-weight:bold"><a name="assignment">assignment:</a></p><img border="0" src="diagram/assignment.png" height="81" width="341" usemap="#assignment.map"><map name="assignment.map"><area shape="rect" coords="111,1,165,33" href="#NAME" title="NAME"><area shape="rect" coords="235,1,291,33" href="#aexpr" title="aexpr"><area shape="rect" coords="49,45,103,77" href="#NAME" title="NAME"><area shape="rect" coords="173,45,229,77" href="#aexpr" title="aexpr"></map><p>
+         
+         <div class="ebnf"><code>
+               
+               <div><a href="#assignment" title="assignment" shape="rect">assignment</a></div>
+               
+               <div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;::= 'var' <a href="#NAME" title="NAME" shape="rect">NAME</a> '=' <a href="#aexpr" title="aexpr" shape="rect">aexpr</a></div>
+               
+               <div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| <a href="#NAME" title="NAME" shape="rect">NAME</a> '=' <a href="#aexpr" title="aexpr" shape="rect">aexpr</a></div></code></div>
+         </p>
+      
+      <p>referenced by:
+         
+         <ul>
+            
+            <li><a href="#expr" title="expr">expr</a></li>
+            </ul>
+         </p><br><p style="font-size: 14px; font-weight:bold"><a name="ifexpr">ifexpr:</a></p><img border="0" src="diagram/ifexpr.png" height="69" width="523" usemap="#ifexpr.map"><map name="ifexpr.map"><area shape="rect" coords="77,1,131,33" href="#comp" title="comp"><area shape="rect" coords="207,1,259,33" href="#block" title="block"><area shape="rect" coords="421,33,473,65" href="#block" title="block"></map><p>
+         
+         <div class="ebnf"><code>
+               
+               <div><a href="#ifexpr" title="ifexpr" shape="rect">ifexpr</a>&nbsp;&nbsp;&nbsp;::= 'if' <a href="#comp" title="comp" shape="rect">comp</a> 'do' <a href="#block" title="block" shape="rect">block</a> ( 'else' 'do' <a href="#block" title="block" shape="rect">block</a> )?</div></code></div>
+         </p>
+      
+      <p>referenced by:
+         
+         <ul>
+            
+            <li><a href="#expr" title="expr">expr</a></li>
+            </ul>
+         </p><br><p style="font-size: 14px; font-weight:bold"><a name="whileexpr">whileexpr:</a></p><img border="0" src="diagram/whileexpr.png" height="37" width="317" usemap="#whileexpr.map"><map name="whileexpr.map"><area shape="rect" coords="105,1,159,33" href="#comp" title="comp"><area shape="rect" coords="235,1,287,33" href="#block" title="block"></map><p>
+         
+         <div class="ebnf"><code>
+               
+               <div><a href="#whileexpr" title="whileexpr" shape="rect">whileexpr</a></div>
+               
+               <div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;::= 'while' <a href="#comp" title="comp" shape="rect">comp</a> 'do' <a href="#block" title="block" shape="rect">block</a></div></code></div>
+         </p>
+      
+      <p>referenced by:
+         
+         <ul>
+            
+            <li><a href="#expr" title="expr">expr</a></li>
+            </ul>
+         </p><br><p style="font-size: 14px; font-weight:bold"><a name="block">block:</a></p><img border="0" src="diagram/block.png" height="37" width="205" usemap="#block.map"><map name="block.map"><area shape="rect" coords="77,1,127,33" href="#start" title="start"></map><p>
+         
+         <div class="ebnf"><code>
+               
+               <div><a href="#block" title="block" shape="rect">block</a>&nbsp;&nbsp;&nbsp;&nbsp;::= '{' <a href="#start" title="start" shape="rect">start</a> '}'</div></code></div>
+         </p>
+      
+      <p>referenced by:
+         
+         <ul>
+            
+            <li><a href="#ifexpr" title="ifexpr">ifexpr</a></li>
+            
+            <li><a href="#whileexpr" title="whileexpr">whileexpr</a></li>
+            </ul>
+         </p><br><p style="font-size: 14px; font-weight:bold"><a name="funct">funct:</a></p><img border="0" src="diagram/funct.png" height="37" width="443" usemap="#funct.map"><map name="funct.map"><area shape="rect" coords="107,1,161,33" href="#NAME" title="NAME"><area shape="rect" coords="329,1,413,33" href="#functblock" title="functblock"></map><p>
+         
+         <div class="ebnf"><code>
+               
+               <div><a href="#funct" title="funct" shape="rect">funct</a>&nbsp;&nbsp;&nbsp;&nbsp;::= 'defun' <a href="#NAME" title="NAME" shape="rect">NAME</a> '(' ')' 'do' <a href="#functblock" title="functblock" shape="rect">functblock</a></div></code></div>
+         </p>
+      
+      <p>referenced by:
+         
+         <ul>
+            
+            <li><a href="#expr" title="expr">expr</a></li>
+            </ul>
+         </p><br><p style="font-size: 14px; font-weight:bold"><a name="functblock">functblock:</a></p><img border="0" src="diagram/functblock.png" height="71" width="355" usemap="#functblock.map"><map name="functblock.map"><area shape="rect" coords="97,1,147,33" href="#start" title="start"><area shape="rect" coords="187,35,277,67" href="#functreturn" title="functreturn"></map><p>
+         
+         <div class="ebnf"><code>
+               
+               <div><a href="#functblock" title="functblock" shape="rect">functblock</a></div>
+               
+               <div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;::= '{' <a href="#start" title="start" shape="rect">start</a>* <a href="#functreturn" title="functreturn" shape="rect">functreturn</a> '}'</div></code></div>
+         </p>
+      
+      <p>referenced by:
+         
+         <ul>
+            
+            <li><a href="#funct" title="funct">funct</a></li>
+            </ul>
+         </p><br><p style="font-size: 14px; font-weight:bold"><a name="functreturn">functreturn:</a></p><img border="0" src="diagram/functreturn.png" height="37" width="249" usemap="#functreturn.map"><map name="functreturn.map"><area shape="rect" coords="119,1,175,33" href="#aexpr" title="aexpr"></map><p>
+         
+         <div class="ebnf"><code>
+               
+               <div><a href="#functreturn" title="functreturn" shape="rect">functreturn</a></div>
+               
+               <div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;::= 'returns' <a href="#aexpr" title="aexpr" shape="rect">aexpr</a> ';'</div></code></div>
+         </p>
+      
+      <p>referenced by:
+         
+         <ul>
+            
+            <li><a href="#functblock" title="functblock">functblock</a></li>
+            </ul>
+         </p><br><p style="font-size: 14px; font-weight:bold"><a name="functcall">functcall:</a></p><img border="0" src="diagram/functcall.png" height="37" width="205" usemap="#functcall.map"><map name="functcall.map"><area shape="rect" coords="29,1,83,33" href="#NAME" title="NAME"></map><p>
+         
+         <div class="ebnf"><code>
+               
+               <div><a href="#functcall" title="functcall" shape="rect">functcall</a></div>
+               
+               <div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;::= <a href="#NAME" title="NAME" shape="rect">NAME</a> '(' ')'</div></code></div>
+         </p>
+      
+      <p>referenced by:
+         
+         <ul>
+            
+            <li><a href="#base" title="base">base</a></li>
+            </ul>
+         </p><br><p style="font-size: 14px; font-weight:bold"><a name="print">print:</a></p><img border="0" src="diagram/print.png" height="37" width="283" usemap="#print.map"><map name="print.map"><area shape="rect" coords="151,1,207,33" href="#aexpr" title="aexpr"></map><p>
+         
+         <div class="ebnf"><code>
+               
+               <div><a href="#print" title="print" shape="rect">print</a>&nbsp;&nbsp;&nbsp;&nbsp;::= 'show' '(' <a href="#aexpr" title="aexpr" shape="rect">aexpr</a> ')'</div></code></div>
+         </p>
+      
+      <p>referenced by:
+         
+         <ul>
+            
+            <li><a href="#expr" title="expr">expr</a></li>
+            </ul>
+         </p><br><p style="font-size: 14px; font-weight:bold"><a name="comp">comp:</a></p><img border="0" src="diagram/comp.png" height="81" width="425" usemap="#comp.map"><map name="comp.map"><area shape="rect" coords="49,1,105,33" href="#aexpr" title="aexpr"><area shape="rect" coords="125,1,207,33" href="#OP_COMP" title="OP_COMP"><area shape="rect" coords="227,1,283,33" href="#aexpr" title="aexpr"><area shape="rect" coords="95,45,151,77" href="#aexpr" title="aexpr"><area shape="rect" coords="171,45,253,77" href="#OP_COMP" title="OP_COMP"><area shape="rect" coords="273,45,329,77" href="#aexpr" title="aexpr"></map><p>
+         
+         <div class="ebnf"><code>
+               
+               <div><a href="#comp" title="comp" shape="rect">comp</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;::= <a href="#aexpr" title="aexpr" shape="rect">aexpr</a> <a href="#OP_COMP" title="OP_COMP" shape="rect">OP_COMP</a> <a href="#aexpr" title="aexpr" shape="rect">aexpr</a></div>
+               
+               <div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| '(' <a href="#aexpr" title="aexpr" shape="rect">aexpr</a> <a href="#OP_COMP" title="OP_COMP" shape="rect">OP_COMP</a> <a href="#aexpr" title="aexpr" shape="rect">aexpr</a> ')'</div></code></div>
+         </p>
+      
+      <p>referenced by:
+         
+         <ul>
+            
+            <li><a href="#ifexpr" title="ifexpr">ifexpr</a></li>
+            
+            <li><a href="#whileexpr" title="whileexpr">whileexpr</a></li>
+            </ul>
+         </p><br><p style="font-size: 14px; font-weight:bold"><a name="aexpr">aexpr:</a></p><img border="0" src="diagram/aexpr.png" height="81" width="323" usemap="#aexpr.map"><map name="aexpr.map"><area shape="rect" coords="49,1,99,33" href="#term" title="term"><area shape="rect" coords="49,45,105,77" href="#aexpr" title="aexpr"><area shape="rect" coords="125,45,203,77" href="#OP_TERM" title="OP_TERM"><area shape="rect" coords="223,45,273,77" href="#term" title="term"></map><p>
+         
+         <div class="ebnf"><code>
+               
+               <div><a href="#aexpr" title="aexpr" shape="rect">aexpr</a>&nbsp;&nbsp;&nbsp;&nbsp;::= <a href="#term" title="term" shape="rect">term</a></div>
+               
+               <div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| <a href="#aexpr" title="aexpr" shape="rect">aexpr</a> <a href="#OP_TERM" title="OP_TERM" shape="rect">OP_TERM</a> <a href="#term" title="term" shape="rect">term</a></div></code></div>
+         </p>
+      
+      <p>referenced by:
+         
+         <ul>
+            
+            <li><a href="#aexpr" title="aexpr">aexpr</a></li>
+            
+            <li><a href="#assignment" title="assignment">assignment</a></li>
+            
+            <li><a href="#base" title="base">base</a></li>
+            
+            <li><a href="#comp" title="comp">comp</a></li>
+            
+            <li><a href="#expr" title="expr">expr</a></li>
+            
+            <li><a href="#functreturn" title="functreturn">functreturn</a></li>
+            
+            <li><a href="#print" title="print">print</a></li>
+            </ul>
+         </p><br><p style="font-size: 14px; font-weight:bold"><a name="term">term:</a></p><img border="0" src="diagram/term.png" height="81" width="339" usemap="#term.map"><map name="term.map"><area shape="rect" coords="49,1,105,33" href="#factor" title="factor"><area shape="rect" coords="49,45,99,77" href="#term" title="term"><area shape="rect" coords="119,45,213,77" href="#OP_FACTOR" title="OP_FACTOR"><area shape="rect" coords="233,45,289,77" href="#factor" title="factor"></map><p>
+         
+         <div class="ebnf"><code>
+               
+               <div><a href="#term" title="term" shape="rect">term</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;::= <a href="#factor" title="factor" shape="rect">factor</a></div>
+               
+               <div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| <a href="#term" title="term" shape="rect">term</a> <a href="#OP_FACTOR" title="OP_FACTOR" shape="rect">OP_FACTOR</a> <a href="#factor" title="factor" shape="rect">factor</a></div></code></div>
+         </p>
+      
+      <p>referenced by:
+         
+         <ul>
+            
+            <li><a href="#aexpr" title="aexpr">aexpr</a></li>
+            
+            <li><a href="#term" title="term">term</a></li>
+            </ul>
+         </p><br><p style="font-size: 14px; font-weight:bold"><a name="factor">factor:</a></p><img border="0" src="diagram/factor.png" height="81" width="311" usemap="#factor.map"><map name="factor.map"><area shape="rect" coords="49,1,89,33" href="#trig" title="trig"><area shape="rect" coords="49,45,105,77" href="#factor" title="factor"><area shape="rect" coords="125,45,201,77" href="#OP_POW" title="OP_POW"><area shape="rect" coords="221,45,261,77" href="#trig" title="trig"></map><p>
+         
+         <div class="ebnf"><code>
+               
+               <div><a href="#factor" title="factor" shape="rect">factor</a>&nbsp;&nbsp;&nbsp;::= <a href="#trig" title="trig" shape="rect">trig</a></div>
+               
+               <div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| <a href="#factor" title="factor" shape="rect">factor</a> <a href="#OP_POW" title="OP_POW" shape="rect">OP_POW</a> <a href="#trig" title="trig" shape="rect">trig</a></div></code></div>
+         </p>
+      
+      <p>referenced by:
+         
+         <ul>
+            
+            <li><a href="#factor" title="factor">factor</a></li>
+            
+            <li><a href="#term" title="term">term</a></li>
+            </ul>
+         </p><br><p style="font-size: 14px; font-weight:bold"><a name="trig">trig:</a></p><img border="0" src="diagram/trig.png" height="81" width="219" usemap="#trig.map"><map name="trig.map"><area shape="rect" coords="49,1,99,33" href="#base" title="base"><area shape="rect" coords="49,45,99,77" href="#TRIG" title="TRIG"><area shape="rect" coords="119,45,169,77" href="#base" title="base"></map><p>
+         
+         <div class="ebnf"><code>
+               
+               <div><a href="#trig" title="trig" shape="rect">trig</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;::= <a href="#base" title="base" shape="rect">base</a></div>
+               
+               <div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| <a href="#TRIG" title="TRIG" shape="rect">TRIG</a> <a href="#base" title="base" shape="rect">base</a></div></code></div>
+         </p>
+      
+      <p>referenced by:
+         
+         <ul>
+            
+            <li><a href="#factor" title="factor">factor</a></li>
+            </ul>
+         </p><br><p style="font-size: 14px; font-weight:bold"><a name="base">base:</a></p><img border="0" src="diagram/base.png" height="257" width="247" usemap="#base.map"><map name="base.map"><area shape="rect" coords="49,1,151,33" href="#leftoperation" title="leftoperation"><area shape="rect" coords="49,45,117,77" href="#number" title="number"><area shape="rect" coords="49,89,109,121" href="#getvar" title="getvar"><area shape="rect" coords="49,133,121,165" href="#functcall" title="functcall"><area shape="rect" coords="49,177,99,209" href="#TRIG" title="TRIG"><area shape="rect" coords="119,177,169,209" href="#base" title="base"><area shape="rect" coords="95,221,151,253" href="#aexpr" title="aexpr"></map><p>
+         
+         <div class="ebnf"><code>
+               
+               <div><a href="#base" title="base" shape="rect">base</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;::= <a href="#leftoperation" title="leftoperation" shape="rect">leftoperation</a></div>
+               
+               <div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| <a href="#number" title="number" shape="rect">number</a></div>
+               
+               <div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| <a href="#getvar" title="getvar" shape="rect">getvar</a></div>
+               
+               <div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| <a href="#functcall" title="functcall" shape="rect">functcall</a></div>
+               
+               <div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| <a href="#TRIG" title="TRIG" shape="rect">TRIG</a> <a href="#base" title="base" shape="rect">base</a></div>
+               
+               <div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| '(' <a href="#aexpr" title="aexpr" shape="rect">aexpr</a> ')'</div></code></div>
+         </p>
+      
+      <p>referenced by:
+         
+         <ul>
+            
+            <li><a href="#base" title="base">base</a></li>
+            
+            <li><a href="#leftoperation" title="leftoperation">leftoperation</a></li>
+            
+            <li><a href="#trig" title="trig">trig</a></li>
+            </ul>
+         </p><br><p style="font-size: 14px; font-weight:bold"><a name="leftoperation">leftoperation:</a></p><img border="0" src="diagram/leftoperation.png" height="37" width="203" usemap="#leftoperation.map"><map name="leftoperation.map"><area shape="rect" coords="29,1,103,33" href="#OP_LEFT" title="OP_LEFT"><area shape="rect" coords="123,1,173,33" href="#base" title="base"></map><p>
+         
+         <div class="ebnf"><code>
+               
+               <div><a href="#leftoperation" title="leftoperation" shape="rect">leftoperation</a></div>
+               
+               <div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;::= <a href="#OP_LEFT" title="OP_LEFT" shape="rect">OP_LEFT</a> <a href="#base" title="base" shape="rect">base</a></div></code></div>
+         </p>
+      
+      <p>referenced by:
+         
+         <ul>
+            
+            <li><a href="#base" title="base">base</a></li>
+            </ul>
+         </p><br><p style="font-size: 14px; font-weight:bold"><a name="number">number:</a></p><img border="0" src="diagram/number.png" height="37" width="131" usemap="#number.map"><map name="number.map"><area shape="rect" coords="29,1,101,33" href="#NUMBER" title="NUMBER"></map><p>
+         
+         <div class="ebnf"><code>
+               
+               <div><a href="#number" title="number" shape="rect">number</a>&nbsp;&nbsp;&nbsp;::= <a href="#NUMBER" title="NUMBER" shape="rect">NUMBER</a></div></code></div>
+         </p>
+      
+      <p>referenced by:
+         
+         <ul>
+            
+            <li><a href="#base" title="base">base</a></li>
+            </ul>
+         </p><br><p style="font-size: 14px; font-weight:bold"><a name="getvar">getvar:</a></p><img border="0" src="diagram/getvar.png" height="37" width="113" usemap="#getvar.map"><map name="getvar.map"><area shape="rect" coords="29,1,83,33" href="#NAME" title="NAME"></map><p>
+         
+         <div class="ebnf"><code>
+               
+               <div><a href="#getvar" title="getvar" shape="rect">getvar</a>&nbsp;&nbsp;&nbsp;::= <a href="#NAME" title="NAME" shape="rect">NAME</a></div></code></div>
+         </p>
+      
+      <p>referenced by:
+         
+         <ul>
+            
+            <li><a href="#base" title="base">base</a></li>
+            </ul>
+         </p><br><p style="font-size: 14px; font-weight:bold"><a name="OP_TERM">OP_TERM:</a></p><img border="0" src="diagram/OP_TERM.png" height="81" width="129"><p>
+         
+         <div class="ebnf"><code>
+               
+               <div><a href="#OP_TERM" title="OP_TERM" shape="rect">OP_TERM</a>&nbsp;&nbsp;::= '+'</div>
+               
+               <div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| '-'</div></code></div>
+         </p>
+      
+      <p>referenced by:
+         
+         <ul>
+            
+            <li><a href="#aexpr" title="aexpr">aexpr</a></li>
+            </ul>
+         </p><br><p style="font-size: 14px; font-weight:bold"><a name="OP_FACTOR">OP_FACTOR:</a></p><img border="0" src="diagram/OP_FACTOR.png" height="169" width="135"><p>
+         
+         <div class="ebnf"><code>
+               
+               <div><a href="#OP_FACTOR" title="OP_FACTOR" shape="rect">OP_FACTOR</a></div>
+               
+               <div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;::= '//'</div>
+               
+               <div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| '*'</div>
+               
+               <div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| '/'</div>
+               
+               <div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| '%'</div></code></div>
+         </p>
+      
+      <p>referenced by:
+         
+         <ul>
+            
+            <li><a href="#term" title="term">term</a></li>
+            </ul>
+         </p><br><p style="font-size: 14px; font-weight:bold"><a name="OP_POW">OP_POW:</a></p><img border="0" src="diagram/OP_POW.png" height="37" width="89"><p>
+         
+         <div class="ebnf"><code>
+               
+               <div><a href="#OP_POW" title="OP_POW" shape="rect">OP_POW</a>&nbsp;&nbsp;&nbsp;::= '^'</div></code></div>
+         </p>
+      
+      <p>referenced by:
+         
+         <ul>
+            
+            <li><a href="#factor" title="factor">factor</a></li>
+            </ul>
+         </p><br><p style="font-size: 14px; font-weight:bold"><a name="OP_LEFT">OP_LEFT:</a></p><img border="0" src="diagram/OP_LEFT.png" height="81" width="129"><p>
+         
+         <div class="ebnf"><code>
+               
+               <div><a href="#OP_LEFT" title="OP_LEFT" shape="rect">OP_LEFT</a>&nbsp;&nbsp;::= '+'</div>
+               
+               <div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| '-'</div></code></div>
+         </p>
+      
+      <p>referenced by:
+         
+         <ul>
+            
+            <li><a href="#leftoperation" title="leftoperation">leftoperation</a></li>
+            </ul>
+         </p><br><p style="font-size: 14px; font-weight:bold"><a name="OP_COMP">OP_COMP:</a></p><img border="0" src="diagram/OP_COMP.png" height="257" width="139"><p>
+         
+         <div class="ebnf"><code>
+               
+               <div><a href="#OP_COMP" title="OP_COMP" shape="rect">OP_COMP</a>&nbsp;&nbsp;::= '=='</div>
+               
+               <div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| '!='</div>
+               
+               <div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| '&gt;='</div>
+               
+               <div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| '&lt;='</div>
+               
+               <div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| '&gt;'</div>
+               
+               <div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| '&lt;'</div></code></div>
+         </p>
+      
+      <p>referenced by:
+         
+         <ul>
+            
+            <li><a href="#comp" title="comp">comp</a></li>
+            </ul>
+         </p><br><p style="font-size: 14px; font-weight:bold"><a name="TRIG">TRIG:</a></p><img border="0" src="diagram/TRIG.png" height="257" width="169"><p>
+         
+         <div class="ebnf"><code>
+               
+               <div><a href="#TRIG" title="TRIG" shape="rect">TRIG</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;::= 'sen'</div>
+               
+               <div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| 'cos'</div>
+               
+               <div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| 'tang'</div>
+               
+               <div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| 'arcsen'</div>
+               
+               <div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| 'arccos'</div>
+               
+               <div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| 'arctang'</div></code></div>
+         </p>
+      
+      <p>referenced by:
+         
+         <ul>
+            
+            <li><a href="#base" title="base">base</a></li>
+            
+            <li><a href="#trig" title="trig">trig</a></li>
+            </ul>
+         </p><br><p style="font-size: 14px; font-weight:bold"><a name="COMMENT">COMMENT:</a></p><img border="0" src="diagram/COMMENT.png" height="53" width="253"><p>
+         
+         <div class="ebnf"><code>
+               
+               <div><a href="#COMMENT" title="COMMENT" shape="rect">COMMENT</a>&nbsp;&nbsp;::= '##' <a href="#." title="." shape="rect">.</a>+ '##'</div></code></div>
+         </p>
+      
+      <p>no references</p><br><p style="font-size: 14px; font-weight:bold"><a name="NAME">NAME:</a></p><img border="0" src="diagram/NAME.png" height="291" width="283"><p>
+         
+         <div class="ebnf"><code>
+               
+               <div><a href="#NAME" title="NAME" shape="rect">NAME</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;::= [_a-zA-Z] [_a-zA-Z0-9]*</div></code></div>
+         </p>
+      
+      <p>referenced by:
+         
+         <ul>
+            
+            <li><a href="#assignment" title="assignment">assignment</a></li>
+            
+            <li><a href="#funct" title="funct">funct</a></li>
+            
+            <li><a href="#functcall" title="functcall">functcall</a></li>
+            
+            <li><a href="#getvar" title="getvar">getvar</a></li>
+            </ul>
+         </p><br><p style="font-size: 14px; font-weight:bold"><a name="NUMBER">NUMBER:</a></p><img border="0" src="diagram/NUMBER.png" height="145" width="793"><p>
+         
+         <div class="ebnf"><code>
+               
+               <div><a href="#NUMBER" title="NUMBER" shape="rect">NUMBER</a>&nbsp;&nbsp;&nbsp;::= '-'? [0-9]+ ( '.' [0-9]+ )? ( [eE] [+#x2D]? [0-9]+ )?</div></code></div>
+         </p>
+      
+      <p>referenced by:
+         
+         <ul>
+            
+            <li><a href="#number" title="number">number</a></li>
+            </ul>
+         </p><br><hr>
+      
+      <p>
+         
+         <table border="0" class="signature">
+            
+            <tr>
+               
+               <td style="width: 100%">&nbsp;</td>
+               
+               <td valign="top">
+                  
+                  <nobr class="signature">... generated by <a name="Railroad-Diagram-Generator" class="signature" title="https://www.bottlecaps.de/rr/ui" href="https://www.bottlecaps.de/rr/ui" target="_blank">Railroad Diagram Generator</a></nobr>
+                  </td>
+               
+               <td><a name="Railroad-Diagram-Generator" title="https://www.bottlecaps.de/rr/ui" href="https://www.bottlecaps.de/rr/ui" target="_blank"><img border="0" src="diagram/rr-1.59.1797.png" height="16" width="16"></a></td>
+               </tr>
+            </table>
+         </p>
+      </body>
+</html>

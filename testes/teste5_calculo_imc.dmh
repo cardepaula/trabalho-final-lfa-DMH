@@ -16,16 +16,16 @@ defun calculaIMC() do {
     } else do {
         if ( imc  < 25) do {
             indice = 2;
-        } else do{
+        } else do {
             if ( imc  < 30) do {
                 indice = 3;
-            } else do{
+            } else do {
                 if ( imc  < 35) do {
                     indice = 4;
-                } else do{
+                } else do {
                     if ( imc  < 40) do {
                         indice = 5;
-                    } else do{
+                    } else do {
                         indice = 6;
                     };
                 };
@@ -41,5 +41,5 @@ var peso = 51.400;
 var altura = 1.64;
 var classificacao = calculaIMC();
 
-## Printa a classificação baseado no IMC da calculado ##
+## Printa a classificação baseado no IMC calculado ##
 show(classificacao);
